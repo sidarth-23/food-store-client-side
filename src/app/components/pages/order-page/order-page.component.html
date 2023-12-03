@@ -1,0 +1,90 @@
+<div
+  [@fadeInOut]="initiation"
+  class="flex flex-col justify-center items-center"
+>
+  <h1 class="font-bold">Your Orders</h1>
+  <div
+    class="flex w-full items-center justify-center flex-col gap-4"
+  >
+  @for (item of orderList; track item) {
+    <div class="grid grid-cols-3 lg:grid-cols-4 w-full gap-2 py-2">
+      <div
+        class="col-span-3 lg:col-span-1 w-full lg:flex-col border-white border-2 rounded md flex items-center justify-around lg:justify-center lg:divide-y-2"
+      >
+        <h1 class="text-center pt-2">
+          Order Id : <span class="text-base">
+            {{item.orderId}}
+          </span>
+        </h1>
+        <h1 class="text-center pt-2">
+          Status : <span class="text-base">
+            {{item.status}}
+          </span>
+        </h1>
+      </div>
+      <table
+        class="col-span-3 min-w-full divide-y-2 text-sm divide-gray-700 bg-gray-900"
+      >
+        <thead class="text-left">
+          <tr>
+            <th class="whitespace-nowrap px-4 py-2 font-medium text-white">
+              Item
+            </th>
+            <th class="whitespace-nowrap px-4 py-2 font-medium text-white">
+              Price
+            </th>
+            <th class="whitespace-nowrap px-4 py-2 font-medium text-white">
+              Quantity
+            </th>
+            <th class="whitespace-nowrap px-4 py-2 font-medium text-white">
+              Total
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-700">
+          @for (i of item.orderedItems; track i) {
+            <tr class="odd:bg-gray-800/50">
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-white">
+                {{i.foodName}}
+              </td>
+              <td class="whitespace-nowrap px-4 py-2 text-gray-200">
+                {{i.price}}
+              </td>
+              <td class="whitespace-nowrap px-4 py-2 text-gray-200">
+                {{i.quantity}}
+              </td>
+              <td class="whitespace-nowrap px-4 py-2 text-gray-200">
+                {{i.price * i.price | currency}}
+              </td>
+            </tr>
+          }
+
+          <!-- <tr class="odd:bg-gray-800/50">
+            <td class="whitespace-nowrap px-4 py-2 font-medium text-white">
+              Jane Doe
+            </td>
+            <td class="whitespace-nowrap px-4 py-2 text-gray-200">
+              04/11/1980
+            </td>
+            <td class="whitespace-nowrap px-4 py-2 text-gray-200">
+              Web Designer
+            </td>
+            <td class="whitespace-nowrap px-4 py-2 text-gray-200">$100,000</td>
+          </tr>
+
+          <tr class="odd:bg-gray-800/50">
+            <td class="whitespace-nowrap px-4 py-2 font-medium text-white">
+              Gary Barlow
+            </td>
+            <td class="whitespace-nowrap px-4 py-2 text-gray-200">
+              24/05/1995
+            </td>
+            <td class="whitespace-nowrap px-4 py-2 text-gray-200">Singer</td>
+            <td class="whitespace-nowrap px-4 py-2text-gray-200">$20,000</td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+  }
+  </div>
+</div>

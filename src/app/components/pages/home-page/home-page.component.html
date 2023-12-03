@@ -1,0 +1,140 @@
+<div
+  [@fadeInOut]="initiation"
+  class="flex flex-col justify-center items-center py-4 gap-4 transition-transform no-scrollbar"
+>
+  <div class=" flex gap-4">
+    <div class="relative">
+      <form (ngSubmit)="onSearchTerm()">
+        <label for="Search" class="sr-only"> Search for... </label
+        ><input
+        maxlength="30"
+          type="text"
+          id="Search"
+          placeholder="Search For..."
+          name="country"
+          aria-label="Country"
+          matInput
+          class="placeholder:text-gray-200 w-full rounded-md active:border-gray-200 outline-none py-2.5 pe-10 shadow-sm border-gray-700 bg-gray-800 text-white sm:text-sm transition-transform focus:scale-110"
+          [(ngModel)]="searchTerm"
+        />
+        <span class="absolute inset-y-0 end-0 grid w-10 place-content-center"
+          ><button type="submit" class="text-gray-400 hover:text-gray-300">
+            <span class="sr-only">Search</span
+            ><svg
+              xml
+              ns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-4 w-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg></button
+        ></span>
+      </form>
+    </div>
+    <button
+      class="text-center inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-4 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-primary-red focus:outline-none focus:ring active:bg-primary-red"
+      routerLink="/home/favourites"
+      routerLinkActive="bg-transparent text-primary-red"
+      >
+      Show Favourites
+    </button>
+  </div>
+  <div class="w-10/12 flex flex-wrap gap-3 justify-center items-center pt-6">
+    @for (item of tagList; track $index) {
+    <button
+      class="bg-black border-2 border-gray-300 rounded-full text-gray-300 py-2 px-4"
+      (click)="onTagClick(item)"
+    >
+      {{ item }}
+    </button>
+    }
+  </div>
+
+  <div
+    class="w-full xl:grid-col-4 lg:grid-cols-3 grid md:grid-cols-2 gap-4 py-3"
+  >
+    @for (item of foodList; track $index) {
+    <div class="group relative block bg-black">
+      <img
+        [alt]="item.name"
+        [src]="'../../../../' + item.imageUrl"
+        class="absolute inset-0 h-full w-full object-cover opacity-50 transition-opacity group-hover:opacity-30 rounded-lg"
+      />
+      <div
+        class="absolute bottom-3 left-1/3 text-white flex gap-2 items-center"
+      >
+        Rating :
+        <star-rating [stars]="item.stars"></star-rating>
+      </div>
+      <div class="relative p-4 sm:p-6 lg:p-8">
+        <p
+          class="text-base font-medium uppercase tracking-widest text-white border-b-2"
+        >
+          {{ item.name }}
+        </p>
+
+        <p class="text-xl font-bold text-white sm:text-2xl">
+          Price: {{ item.price | currency }}
+        </p>
+
+        <div class="mt-26 mb-6 sm:mt-42 lg:mt-58">
+          <div
+            class="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100 flex flex-col justify-between items-center"
+          >
+            <p class="text-sm text-white hidden lg:block">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis
+              perferendis hic asperiores quibusdam quidem voluptates doloremque
+              reiciendis nostrum harum. Repudiandae?
+            </p>
+            <div class="grid grid-cols-2 gap-4 text-white w-full">
+              <div class="border-[1px] border-white rounded md px-4 py-2">
+                <p class="border-b-2 border-b-white text-sm">
+                  Main Ingredients
+                </p>
+                <ul class="text-lg">
+                  <li>Random 1</li>
+                  <li>Random 2</li>
+                  <li>Random 3</li>
+                </ul>
+              </div>
+              <div
+                class="flex justify-center items-center flex-col border-[1px] border-white rounded md px-4 py-2"
+              >
+                <p class="border-b-2 border-white w-full text-center text-sm">
+                  {{ item.cookTime + " min" }}
+                </p>
+                <p class="text-xl font-bold">{{ "10-20min" }}</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-4 w-full">
+              <button
+                class="text-center inline-block rounded bg-primary-red px-8 py-3 text-sm font-medium text-white transition hover:rotate-2 hover:scale-110 focus:outline-none focus:ring active:bg-indigo-500"
+                (click)="onAddToCart(item.id)"
+              >
+                Add To Cart
+              </button>
+              <button
+                class="text-center inline-block rounded px-8 py-3 text-sm font-medium text-white transition hover:-rotate-2 hover:scale-110 focus:outline-none focus:ring active:bg-indigo-500"
+                [ngClass]=" favouriteFoodIds && !favouriteFoodIds.includes(item.id) ? 'bg-green-500': 'bg-primary-red'"
+                (click)="toggleFavourites(item.id)"
+              >
+                @if (favouriteFoodIds && !favouriteFoodIds.includes(item.id)) { Add to
+                <span class="text-xl before:content-[' ']">❤</span> } @else {
+                Remove from <span class="text-xl">❤</span>
+                }
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
