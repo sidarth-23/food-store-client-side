@@ -36,7 +36,11 @@ export class UserService {
   private userSubject = new BehaviorSubject<IUserData>(new IUserData());
   public userObservable: Observable<IUserData>;
 
-  constructor(private http: HttpClient, private toastrService: ToastrService, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private toastrService: ToastrService,
+    private router: Router
+  ) {
     this.userObservable = this.userSubject.asObservable();
 
     const initialUser = this.GetUserFromLocalStorage();
@@ -69,14 +73,17 @@ export class UserService {
     return this.http.post<IUserRes>(POST_LOGIN_USER, userLogin).pipe(
       tap({
         next: (user) => {
-          console.log(user)
+          console.log(user);
           this.setUserAndNotify(user);
-          this.toastrService.success(`Welcome back, ${user.data.firstName} ${user.data.lastName}`,'Welcome to Foodmine');
+          this.toastrService.success(
+            `Welcome back, ${user.data.firstName} ${user.data.lastName}`,
+            'Welcome to Foodmine'
+          );
         },
         error: (err) => {
           err.error.errMessage.forEach((item: ErrorMessage) => {
             this.toastrService.error(item.msg, 'Login Failed');
-          })
+          });
         },
       })
     );
@@ -84,7 +91,10 @@ export class UserService {
 
   logout() {
     localStorage.removeItem(USER_KEY);
-    this.toastrService.success(`Have a great day ${this.currentUser.firstName} ${this.currentUser.lastName}, see you soon`,'Logout Successful');
+    this.toastrService.success(
+      `Have a great day ${this.currentUser.firstName} ${this.currentUser.lastName}, see you soon`,
+      'Logout Successful'
+    );
     this.userSubject.next(new IUserData());
     this.router.navigateByUrl('/login');
   }
@@ -102,7 +112,7 @@ export class UserService {
         error: (err) => {
           err.error.errMessage.forEach((item: ErrorMessage) => {
             this.toastrService.error(item.msg, 'Registration Failed');
-          })
+          });
         },
       })
     );
@@ -130,21 +140,22 @@ export class UserService {
   }
 
   updatePass(userLogin: IPassChange): Observable<IUserRes> {
-    return this.http
-      .patch<IUserRes>(PATCH_PASSWORD, userLogin)
-      .pipe(
-        tap({
-          next: (updatedUser) => {
-            this.setUserAndNotify(updatedUser);
-            this.toastrService.success(
-              'Password updated successfully. Continue with your shopping'
-            );
-          },
-          error: (err) => {
-            this.toastrService.error(err.error.errMessage, 'Password update failed');
-          },
-        })
-      );
+    return this.http.patch<IUserRes>(PATCH_PASSWORD, userLogin).pipe(
+      tap({
+        next: (updatedUser) => {
+          this.setUserAndNotify(updatedUser);
+          this.toastrService.success(
+            'Password updated successfully. Continue with your shopping'
+          );
+        },
+        error: (err) => {
+          this.toastrService.error(
+            err.error.errMessage,
+            'Password update failed'
+          );
+        },
+      })
+    );
   }
 
   toggleFavourite(foodId: number): Observable<IUserFavourites> {
@@ -168,13 +179,28 @@ export class UserService {
       );
   }
 
-  updateUserCart(foodId: number, quantity: number): Observable<{success: boolean , data: string}> {
+  updateUserCart(
+    foodId: number,
+    quantity: number,
+    isRemove: boolean = false
+  ): Observable<{ success: boolean; data: string }> {
     return this.http
-      .patch<{success: boolean , data: string}>(GET_AND_PATCH_USER_CART, { foodId, quantity })
+      .patch<{ success: boolean; data: string }>(GET_AND_PATCH_USER_CART, {
+        foodId,
+        quantity,
+      })
       .pipe(
         tap({
           next: (cart) => {
-            this.toastrService.success(cart.data, 'Cart update successful');
+            if (!isRemove)
+              return this.toastrService.success(
+                cart.data,
+                'Cart update successful'
+              );
+            return this.toastrService.success(
+              cart.data,
+              'Cart item removed successful'
+            );
           },
           error: (err) => {
             this.toastrService.error(err.errMessage, 'Cart update failed');
@@ -199,7 +225,9 @@ export class UserService {
 
   private GetUserFromLocalStorage(): IUserData {
     const userJson = localStorage.getItem(USER_KEY);
-    const user = userJson ? (JSON.parse(userJson) as IUserData) : new IUserData();
+    const user = userJson
+      ? (JSON.parse(userJson) as IUserData)
+      : new IUserData();
     this.userSubject.next(user);
     return user;
   }

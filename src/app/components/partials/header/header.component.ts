@@ -53,9 +53,7 @@ export class HeaderComponent implements OnInit{
   }
 
   headClick() {
-    setTimeout(() => {
       this.headTrigger = this.headTrigger === 'open' ? 'closed' : 'open';
-    }, 30);
   }
 
 
