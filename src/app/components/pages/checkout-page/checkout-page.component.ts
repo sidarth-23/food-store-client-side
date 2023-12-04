@@ -26,6 +26,7 @@ import { startWith } from 'rxjs/operators';
 import { MapsComponent } from '../../partials/maps/maps.component';
 import { LatLngLiteral } from 'leaflet';
 import { OrderService } from '../../../services/order.service';
+import { FormHeaderComponent } from '../../partials/form-header/form-header.component';
 
 @Component({
   selector: 'app-register-page',
@@ -41,7 +42,8 @@ import { OrderService } from '../../../services/order.service';
     ReactiveFormsModule,
     AsyncPipe,
     MapsComponent,
-    NgClass
+    NgClass,
+    FormHeaderComponent
   ],
   templateUrl: './checkout-page.component.html',
   styles: ``,
@@ -86,7 +88,7 @@ export class CheckoutPageComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(3),
-          Validators.pattern('[a-zA-Z]*'),
+          Validators.pattern('[a-zA-Z ]*'),
         ],
       ],
       addressLine1: [

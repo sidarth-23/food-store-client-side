@@ -48,13 +48,13 @@
                 {{i.foodName}}
               </td>
               <td class="whitespace-nowrap px-4 py-2 text-gray-200">
-                {{i.price}}
+                {{i.price | currency}}
               </td>
               <td class="whitespace-nowrap px-4 py-2 text-gray-200">
                 {{i.quantity}}
               </td>
               <td class="whitespace-nowrap px-4 py-2 text-gray-200">
-                {{i.price * i.price | currency}}
+                {{i.price * i.quantity | currency}}
               </td>
             </tr>
           }

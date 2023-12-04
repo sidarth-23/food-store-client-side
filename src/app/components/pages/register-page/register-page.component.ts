@@ -29,6 +29,7 @@ import { MapsComponent } from '../../partials/maps/maps.component';
 import { LatLngLiteral } from 'leaflet';
 import { UserService } from '../../../services/user.service';
 import { PasswordsMatchValidator } from '../../../shared/validators/password-match.validator';
+import { FormHeaderComponent } from '../../partials/form-header/form-header.component';
 
 @Component({
   selector: 'app-register-page',
@@ -44,7 +45,8 @@ import { PasswordsMatchValidator } from '../../../shared/validators/password-mat
     ReactiveFormsModule,
     AsyncPipe,
     MapsComponent,
-    NgClass
+    NgClass,
+    FormHeaderComponent
   ],
   templateUrl: './register-page.component.html',
   styles: ``,

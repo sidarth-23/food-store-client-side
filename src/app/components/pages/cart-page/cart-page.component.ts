@@ -58,7 +58,7 @@ export class CartPageComponent implements OnInit{
 
   onReduceQuantity(foodId: number,quantity: number = -1, isRemove: boolean = false) {
     this.userService.updateUserCart(foodId, quantity, isRemove).subscribe(() => {
-      this.cartItems.data.map((item) => {
+      this.cartItems.data = this.cartItems.data.map((item) => {
         if (item.foodId === foodId) {
           item.quantity += quantity
           return item

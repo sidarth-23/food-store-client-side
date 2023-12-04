@@ -5,6 +5,7 @@ export interface IUserRes {
   data: IUserData;
 }
 
+
 export interface IGetUser {
   success: boolean;
   data: {

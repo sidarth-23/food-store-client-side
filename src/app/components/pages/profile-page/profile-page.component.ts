@@ -23,6 +23,7 @@ import { IGetUser } from '../../../shared/interfaces/users/response.interface';
 import { Address } from '../../../shared/models/User';
 import { PasswordStrengthValidator } from '../../../shared/validators/password-strenght.validator';
 import { PasswordsMatchValidator } from '../../../shared/validators/password-match.validator';
+import { FormHeaderComponent } from '../../partials/form-header/form-header.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -35,6 +36,7 @@ import { PasswordsMatchValidator } from '../../../shared/validators/password-mat
     ReactiveFormsModule,
     MapsComponent,
     NgClass,
+    FormHeaderComponent
   ],
   templateUrl: './profile-page.component.html',
   styles: ``,

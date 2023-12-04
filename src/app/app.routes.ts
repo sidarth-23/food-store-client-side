@@ -8,11 +8,12 @@ import { SummaryPageComponent } from './components/pages/summary-page/summary-pa
 import { ProfilePageComponent } from './components/pages/profile-page/profile-page.component';
 import { OrderPageComponent } from './components/pages/order-page/order-page.component';
 import { authGuard } from './shared/auth/auth.guard';
+import { isLoginGuard } from './shared/auth/is-login.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginPageComponent },
-  { path: 'register', component: RegisterPageComponent },
+  { path: 'login', component: LoginPageComponent, canActivate: [isLoginGuard] },
+  { path: 'register', component: RegisterPageComponent, canActivate: [isLoginGuard] },
   { path: 'home', component: HomePageComponent },
   { path: 'home/favourites', component: HomePageComponent, canActivate: [authGuard] },
   { path: 'home/tag/:tagName', component: HomePageComponent },
