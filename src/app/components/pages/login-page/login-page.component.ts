@@ -1,28 +1,57 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { PasswordStrengthValidator } from '../../../shared/validators/password-strenght.validator';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { UserService } from '../../../services/user.service';
+import { TextInputBoxComponent } from '../../partials/text-input-box/text-input-box.component';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule, NgClass],
+  imports: [
+    CommonModule,
+    RouterLink,
+    FormsModule,
+    ReactiveFormsModule,
+    NgClass,
+    TextInputBoxComponent,
+  ],
   templateUrl: './login-page.component.html',
-  styles: ``
+  styles: ``,
 })
-export class LoginPageComponent implements OnInit{
+export class LoginPageComponent implements OnInit {
   loginForm!: FormGroup;
+  passwordErrorArray: string[] = [];
 
-  constructor(private formBuilder: FormBuilder, private userService : UserService, private router : Router){}
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8), PasswordStrengthValidator()]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          PasswordStrengthValidator(),
+        ],
+      ],
     });
+    this.passwordErrorArray = [
+      'required', 'minlength', 'capsCheck', 'numberCheck', 'specialCharCheck'
+    ];
   }
 
   get fc() {

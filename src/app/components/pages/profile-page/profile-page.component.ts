@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import {
   ActivatedRoute,
   Router,
   RouterLink,
-  RouterLinkActive,
-  RouterModule,
+  RouterLinkActive
 } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 import {
@@ -20,10 +19,11 @@ import { LatLngLiteral } from 'leaflet';
 import { MapsComponent } from '../../partials/maps/maps.component';
 import { UserService } from '../../../services/user.service';
 import { IGetUser } from '../../../shared/interfaces/users/response.interface';
-import { Address } from '../../../shared/models/User';
 import { PasswordStrengthValidator } from '../../../shared/validators/password-strenght.validator';
 import { PasswordsMatchValidator } from '../../../shared/validators/password-match.validator';
 import { FormHeaderComponent } from '../../partials/form-header/form-header.component';
+import { MapsService } from '../../../services/maps.service';
+import { TextInputBoxComponent } from '../../partials/text-input-box/text-input-box.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -36,7 +36,8 @@ import { FormHeaderComponent } from '../../partials/form-header/form-header.comp
     ReactiveFormsModule,
     MapsComponent,
     NgClass,
-    FormHeaderComponent
+    FormHeaderComponent,
+    TextInputBoxComponent
   ],
   templateUrl: './profile-page.component.html',
   styles: ``,
@@ -58,28 +59,29 @@ export class ProfilePageComponent implements OnInit {
     private locationService: LocationService,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private mapsService: MapsService
   ) {}
   updateSection!: string;
   initiation: boolean = false;
-  selectedCountry!: string;
-  selectedState!: string;
   updateUserForm!: FormGroup;
   updatePasswordForm!: FormGroup;
   tempStates!: string[];
   tempCities!: string[];
   tempCountries!: string[];
-  mapClick!: boolean;
   enableForm!: boolean;
   userData!: IGetUser;
-  addressToSend!: Address;
   checkAddressEdit!: boolean;
+
+  nameErrorArray = ['required', 'minlength'];
+  emailErrorArray = ['required', 'email'];
+  passwordErrorArray = ['required', 'minlength', 'capsCheck', 'numberCheck', 'specialCharCheck'];
+  addressErrorArray = ['required', 'minlength'];
 
   ngOnInit(): void {
     this.checkAddressEdit = false;
     this.tempCities = [];
     this.tempStates = [];
-    this.mapClick = false;
     this.initiation = true;
 
     this.updatePasswordForm = this.formBuilder.group(
@@ -153,7 +155,6 @@ export class ProfilePageComponent implements OnInit {
 
     this.userService.getUser().subscribe((res) => {
       this.userData = res;
-      this.addressToSend = this.userData.data.Address;
       this.updateUserForm.patchValue({
         firstName: this.userData.data.firstName,
         lastName: this.userData.data.lastName,
@@ -203,18 +204,15 @@ export class ProfilePageComponent implements OnInit {
   }
 
   onCountryChange(country?: string) {
-    if (!this.mapClick) {
       this.locationService
         .getStateList(country || this.fc['country'].value)
         .subscribe((states) => {
           this.tempStates = states.data[0].states.map((state) => state.name);
           this.fc['state'].setValue(this.tempStates[0]);
         });
-    }
   }
 
   onStateChange(state?: string) {
-    if (!this.mapClick) {
       this.locationService
         .getCityList(this.fc['country'].value, this.fc['state'].value || state)
         .subscribe((cities) => {
@@ -222,7 +220,6 @@ export class ProfilePageComponent implements OnInit {
             (city) => city.name
           );
         });
-    }
   }
 
   onSubmit() {
@@ -253,103 +250,11 @@ export class ProfilePageComponent implements OnInit {
   }
 
   onMapClick($event: LatLngLiteral) {
-    this.updateUserForm.patchValue({
-      lat: $event.lat,
-      lng: $event.lng,
-    });
-    if (this.checkAddressEdit) {
-      this.mapClick = true;
-      this.locationService
-        .getAddressFromCoordinates($event.lat, $event.lng)
-        .subscribe((address) => {
-          const subpremise = address.data.address_components.find((item) =>
-            item.types.includes('subpremise')
-          );
-          const premise = address.data.address_components.find((item) =>
-            item.types.includes('premise')
-          );
-          const neighborhood = address.data.address_components.find((item) =>
-            item.types.includes('neighborhood')
-          );
-
-          const streetNumber = address.data.address_components.find((item) => {
-            return item.types.includes('street_number');
-          });
-          const addressLine1 =
-            // contat all the 4 components above it and exclude the null values
-            [subpremise, premise, neighborhood, streetNumber]
-              .map((item) => item?.long_name)
-              .filter((item) => item)
-              .join(', ');
-
-          const intersection = address.data.address_components.find((item) =>
-            item.types.includes('intersection')
-          );
-          const route = address.data.address_components.find((item) => {
-            return item.types.includes('route');
-          });
-          const colloquialArea = address.data.address_components.find((item) =>
-            item.types.includes('colloquial_area')
-          );
-          const addressLine2 = [intersection, route, colloquialArea]
-            .map((item) => item?.long_name)
-            .filter((item) => item)
-            .join(', ');
-
-          const zipCode = address.data.address_components.find((item) =>
-            item.types.includes('postal_code')
-          );
-          const country = address.data.address_components.find((item) =>
-            item.types.includes('country')
-          );
-          const state = address.data.address_components.find((item) =>
-            item.types.includes('administrative_area_level_1')
-          );
-          let city = address.data.address_components.find((item) =>
-            item.types.includes('administrative_area_level_3')
-          );
-          if (!city) {
-            city = address.data.address_components.find((item) =>
-              item.types.includes('locality')
-            );
-          }
-          const len = address.data.address_components.length;
-          const check = this.tempCountries.includes(
-            country?.long_name as string
-          );
-          this.updateUserForm.patchValue({
-            addressLine1: addressLine1 ? addressLine1 : '',
-            addressLine2: addressLine2 ? addressLine2 : '',
-            country: check ? country?.long_name : this.tempCountries[0],
-            zipCode: zipCode ? zipCode.long_name : '',
-          });
-          this.locationService
-            .getStateList(this.fc['country'].value)
-            .subscribe((states) => {
-              this.tempStates = states.data[0].states.map(
-                (state) => state.name
-              );
-              const check = this.tempStates.includes(
-                state?.long_name as string
-              );
-              this.updateUserForm.patchValue({
-                state: check ? state?.long_name : this.tempStates[0],
-              });
-            });
-          this.locationService
-            .getCityList(this.fc['country'].value, this.fc['state'].value)
-            .subscribe((cities) => {
-              this.tempCities = cities.data[0].states.cities.map(
-                (city) => city.name
-              );
-              this.updateUserForm.patchValue({
-                city: city?.long_name ? city?.long_name : this.tempCities[0],
-              });
-            });
-
-          this.mapClick = false;
-        });
-    }
+    this.mapsService.mapClickEvent(this.updateUserForm, this.checkAddressEdit, $event)?.subscribe((res) => {
+      this.tempCountries = res.tempCountries;
+      this.tempStates = res.tempStates;
+      this.tempCities = res.tempCities;
+    })
   }
 
   buttonDisableCondition() {

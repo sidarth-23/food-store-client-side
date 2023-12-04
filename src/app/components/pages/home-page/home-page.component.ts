@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable} from 'rxjs';
 import { StarRatingComponent } from '../../partials/star-rating/star-rating.component';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { FoodService } from '../../../services/food.service';
