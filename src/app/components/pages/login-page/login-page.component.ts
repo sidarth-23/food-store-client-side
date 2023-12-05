@@ -3,6 +3,7 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -12,6 +13,7 @@ import {
 import { PasswordStrengthValidator } from '../../../shared/validators/password-strenght.validator';
 import { UserService } from '../../../services/user.service';
 import { TextInputBoxComponent } from '../../partials/text-input-box/text-input-box.component';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-login-page',
@@ -56,6 +58,10 @@ export class LoginPageComponent implements OnInit {
 
   get fc() {
     return this.loginForm.controls;
+  }
+
+  formControl(value: string) {
+    return this.loginForm.get(value) as FormControl
   }
 
   onSubmit() {

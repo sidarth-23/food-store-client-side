@@ -104,7 +104,7 @@ export class MapsService {
             addressLine2: addressLine2 ? addressLine2 : '',
             country: check ? country?.long_name : this.tempCountries[0],
             zipCode: zipCode ? zipCode.long_name : '',
-          }, {emitEvent: false});
+          });
           this.locationService
             .getStateList(formName.controls.country.value)
             .subscribe((states) => {
@@ -116,7 +116,7 @@ export class MapsService {
               );
               formName.patchValue({
                 state: check ? state?.long_name : this.tempStates[0],
-              }, {emitEvent: false});
+              });
             });
           this.locationService
             .getCityList(

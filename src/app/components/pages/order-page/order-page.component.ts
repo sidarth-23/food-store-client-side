@@ -10,17 +10,6 @@ import { OrderSummary } from '../../../shared/interfaces/users/response.interfac
   imports: [CommonModule],
   templateUrl: './order-page.component.html',
   styles: ``,
-  animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('300ms ease-in-out', style({ opacity: 1 })),
-      ]),
-      transition(':leave', [
-        animate('300ms ease-in-out', style({ opacity: 0 })),
-      ]),
-    ]),
-  ],
 })
 export class OrderPageComponent implements OnInit{
   initiation: boolean = false

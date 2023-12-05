@@ -1,5 +1,4 @@
 <div
-  [@fadeInOut]="initiation"
   class="flex flex-col justify-center items-center py-4 gap-4 transition-transform no-scrollbar"
 >
   <div class=" flex gap-4">
@@ -64,7 +63,8 @@
     <div class="group relative block bg-black">
       <img
         [alt]="item.name"
-        [src]="'../../../../' + item.imageUrl"
+        [ngSrc]="'../../../../' + item.imageUrl"
+        fill
         class="absolute inset-0 h-full w-full object-cover opacity-50 transition-opacity group-hover:opacity-30 rounded-lg"
       />
       <div

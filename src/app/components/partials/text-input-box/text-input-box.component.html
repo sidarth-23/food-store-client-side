@@ -1,10 +1,10 @@
-<div [formGroup]="formGroup">
+<div>
 @if (!withInfoIcon) {
 <label
   [for]="label"
   class="block text-sm font-medium text-white"
   [ngClass]="
-    formGroup.controls[formControlName].touched && formGroup.controls[formControlName].errors
+    formController.touched && formController.errors
       ? 'text-red-400'
       : ''
   "
@@ -21,7 +21,7 @@
                 <li
                   class="text-white"
                   [ngClass]="
-                    formGroup.controls[formControlName].errors?.[item.category]
+                    formController.errors && formController.errors[item.category]
                       ? 'text-red-400'
                       : ''
                   "
@@ -34,8 +34,8 @@
         <div
           class="relative flex gap-2"
           [ngClass]="
-            formGroup.controls[formControlName].errors &&
-            formGroup.controls[formControlName].touched
+            formController.errors &&
+            formController.touched
               ? 'text-red-400'
               : ''
           "
@@ -69,10 +69,10 @@
   maxlength="40"
   [type]="type"
   [id]="label"
-  class="transition-colors mt-1 w-full rounded-md bg-black border-gray-200 text-sm text-white shadow-sm"
-  [formControlName]="formControlName"
+  class="transition-colors mt-1 w-full rounded-md bg-black border-gray-200 text-sm text-white shadow-sm disabled:border-slate-300 disabled:text-slate-500"
+  [formControl]="formController"
   [ngClass]="
-    formGroup.controls[formControlName].touched && formGroup.controls[formControlName].errors
+    formController.touched && formController.errors
       ? 'border-red-400'
       : ''
   "

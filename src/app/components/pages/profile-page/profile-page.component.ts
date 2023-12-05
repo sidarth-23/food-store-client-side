@@ -9,6 +9,7 @@ import {
 import { trigger, transition, style, animate } from '@angular/animations';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -193,6 +194,14 @@ export class ProfilePageComponent implements OnInit {
   get passFc() {
     return this.updatePasswordForm.controls;
   }
+
+  formControlUser(value: string) {
+    return this.updateUserForm.get(value) as FormControl;
+  }
+
+  formControlPass(value: string) {
+    return this.updatePasswordForm.get(value) as FormControl;
+  } 
 
   enableFormClick() {
     this.enableForm = !this.enableForm;

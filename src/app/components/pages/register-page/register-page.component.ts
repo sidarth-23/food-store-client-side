@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -98,7 +99,7 @@ export class RegisterPageComponent implements OnInit {
         ],
         lastName: [
           { value: '', disabled: true },
-          [Validators.pattern('[a-zA-Z]*')],
+          [Validators.pattern('[a-zA-Z ]*')],
         ],
         email: [
           { value: '', disabled: true },
@@ -179,12 +180,15 @@ export class RegisterPageComponent implements OnInit {
     return this.registrationForm.controls;
   }
 
+  formControl(value: string) {
+    return this.registrationForm.get(value) as FormControl;
+  }
+
   onCountryChange(country?: string) {
     this.locationService
       .getStateList(country || this.fc['country'].value)
       .subscribe((states) => {
         this.tempStates = states.data[0].states.map((state) => state.name);
-        this.fc['state'].setValue(this.tempStates[0]);
       });
   }
 
@@ -211,7 +215,7 @@ export class RegisterPageComponent implements OnInit {
       lat: this.fc['lat'].value,
       lng: this.fc['lng'].value,
     };
-
+    console.log('body',body)
     this.userService.register(body).subscribe({
       next: () => {
         this.router.navigate(['/home']);

@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -157,6 +158,10 @@ export class CheckoutPageComponent implements OnInit {
 
   get fc() {
     return this.orderForm.controls;
+  }
+
+  formControl(value: string) {
+    return this.orderForm.get(value) as FormControl;
   }
 
   onCountryChange(country?: string) {

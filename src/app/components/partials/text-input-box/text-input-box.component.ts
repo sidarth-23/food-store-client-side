@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit, forwardRef } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-text-input-box',
@@ -15,12 +15,12 @@ export class TextInputBoxComponent implements OnInit {
   @Input() minlength: number = 0;
   @Input() label!: string;
   @Input() type!: string;
-  @Input() formControlName!: string;
-  @Input() formGroup!: FormGroup;
+  @Input() control!: AbstractControl;
   @Input() asterix: boolean = false;
 
   errorsText!: {category: string, message: string}[]
 
+  constructor() {}
   
   ngOnInit() {
     this.errorsText = [
@@ -36,9 +36,12 @@ export class TextInputBoxComponent implements OnInit {
     // Check if all required inputs are provided
     this.errorsText = this.errorsText.filter((error) => (this.errorCategories.includes(error.category))
     )
-    console.log(this.formGroup, this.formControlName, this.label, this.type);
-    if (!this.label || !this.type || !this.formControlName || !this.formGroup) {
-      console.error('All inputs are required for TextInputBoxComponent');
+    if (this.formController.errors){
+      console.log(this.formController.errors['required'])
     }
+  }
+
+  get formController() {
+    return this.control as FormControl;
   }
 }

@@ -13,17 +13,6 @@ import { ToastrService } from 'ngx-toastr';
   imports: [CommonModule, StarRatingComponent, RouterLink],
   templateUrl: './cart-page.component.html',
   styles: ``,
-  animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('300ms ease-in-out', style({ opacity: 1 })),
-      ]),
-      transition(':leave', [
-        animate('300ms ease-in-out', style({ opacity: 0 })),
-      ]),
-    ]),
-  ],
 })
 export class CartPageComponent implements OnInit{
   initiation: boolean = false
