@@ -20,18 +20,17 @@
         </h1>
         <div class="flex gap-10 justify-center">
           <app-filled-button-red
-            routerLink="/profile/user"
-            routerLinkActive="text-primary-red bg-transparent"
+            [routerLink]="'/profile/user'"
+            [routerLinkActive]="'!text-gray-300 !border-gray-300 bg-transparent'"
           >
             Set User Details
           </app-filled-button-red>
-          <a
-            routerLink="/profile/password"
-            routerLinkActive="text-primary-red bg-transparent"
-            class="inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-primary-red focus:outline-none focus:ring"
+          <app-filled-button-red
+            [routerLink]="'/profile/password'"
+            [routerLinkActive]="'!text-gray-300 !border-gray-300 bg-transparent'"
           >
             Set Password
-          </a>
+          </app-filled-button-red>
         </div>
       </div>
     </section>
@@ -115,7 +114,6 @@
                   </select>
                 </div>
               </div>
-
               <div class="col-span-6 sm:col-span-3">
                 <div>
                   <label
@@ -124,7 +122,6 @@
                   >
                     State
                   </label>
-
                   <select
                     name="HeadlineAct"
                     id="StateSelect"
@@ -144,7 +141,6 @@
                   </select>
                 </div>
               </div>
-
               <div class="col-span-6 sm:col-span-3">
                 <app-text-input-box
                   [type]="'text'"
@@ -152,7 +148,6 @@
                   [control]="formControlUser('zipCode')"
                 ></app-text-input-box>
               </div>
-
               <div class="col-span-6 sm:col-span-3">
                 <div>
                   <label
@@ -199,64 +194,53 @@
           ></app-maps>
         </div>
         } }
-
         <div class="px-8 py-8 lg:hidden col-span-2 grid gap-4">
           @if (enableForm) {
-          <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-            <div class="col-span-6 sm:flex sm:items-center sm:gap-4 w-full">
-              <button
-                class="w-full inline-block shrink-0 rounded-md border border-primary-red hover:bg-primary-red px-12 py-3 text-sm font-medium text-primary-red transition hover:bg-transparent hover:text-white focus:outline-none focus:ring"
-                (click)="onSubmit()"
-                [disabled]="!updateUserForm.valid"
-              >
-                Update Profile
-              </button>
-            </div>
-          </div>
+          <app-empty-button-red
+            class="col-span-6 sm:flex sm:items-center sm:gap-4"
+            class="col-span-6"
+            [type]="'submit'"
+            [disabled]="!updateUserForm.valid"
+            (onClick)="onSubmit()"
+            >Update Profile</app-empty-button-red
+          >
           }
         </div>
       </div>
     </div>
     } @else if (updateSection === 'password') {
-    <main class="flex justify-center items-center px-8 col-span-12 pt-6">
-      <div class="w-full flex justify-center">
+
         <form
           [@fadeInOut]="updateSection"
-          class="w-full mt-8 grid grid-cols-6 gap-6 max-w-xl"
+          class="w-full mt-8 grid grid-cols-6 gap-6 max-w-xl px-8 col-span-12 pt-6"
           [formGroup]="updatePasswordForm"
           (ngSubmit)="onPasswordSubmit()"
         >
-          <div class="col-span-6">
-            <app-text-input-box
-              [type]="'password'"
-              [label]="'Password'"
-              [control]="formControlPass('password')"
-              [withInfoIcon]="true"
-              [minlength]="8"
-              [errorCategories]="passwordErrorArray"
-            ></app-text-input-box>
-          </div>
-
-          <div class="col-span-6">
-            <app-text-input-box
-              [type]="'password'"
-              [label]="'Confirm Password'"
-              [control]="formControlPass('confirmPassword')"
-            ></app-text-input-box>
-          </div>
+          <app-text-input-box
+            class="col-span-6"
+            [type]="'password'"
+            [label]="'Password'"
+            [control]="formControlPass('password')"
+            [withInfoIcon]="true"
+            [minlength]="8"
+            [errorCategories]="passwordErrorArray"
+          ></app-text-input-box>
+          <app-text-input-box
+            class="col-span-6"
+            [type]="'password'"
+            [label]="'Confirm Password'"
+            [control]="formControlPass('confirmPassword')"
+          ></app-text-input-box>
 
           <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-            <button
-              class="transition-colors w-full inline-block shrink-0 rounded-md border border-primary-red hover:bg-primary-red px-12 py-3 text-sm font-medium text-primary-red bg-transparent hover:text-white focus:outline-none focus:ring disabled:border-none disabled:bg-slate-600 disabled:text-slate-100"
-              type="submit"
+            <app-empty-button-red
+              [type]="'submit'"
               [disabled]="!updatePasswordForm.valid"
             >
               Update Password
-            </button>
+            </app-empty-button-red>
           </div>
         </form>
-      </div>
-    </main>
     }
   </div>
 </section>
