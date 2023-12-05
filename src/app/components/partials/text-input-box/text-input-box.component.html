@@ -2,12 +2,13 @@
   @if (!withInfoIcon) {
   <label
     [for]="label"
-    class="block text-sm font-medium text-white"
+    class="block text-sm font-medium text-white "
     [ngClass]="
         formController.errors && formController.touched ? '!text-red-400' : ''
     "
   >
     {{ label }}
+    @if (asterix) {<span class="text-red-400">*</span>}
   </label>
   } @else {
   <div class="relative has-tooltip">

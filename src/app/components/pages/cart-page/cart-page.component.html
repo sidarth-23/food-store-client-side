@@ -1,21 +1,24 @@
 <div class="flex flex-col justify-center items-center">
-<h1 class="text-white text-center lmd:text-2xl">My Cart</h1>
-<div class="grid gap-4 w-11/12">
-  @for (item of cartItems.data; track $index) {
+  <h1 class="text-white text-center lmd:text-2xl">My Cart</h1>
+  <div class="grid gap-4 w-11/12">
+    @for (item of cartItems.data; track $index) {
     <div
       class="grid grid-cols-6 lg:grid-cols-cart-item text-white border-[1px] border-white rounded-lg"
     >
-      <div class="flex justify-center items-center col-span-3 md:col-span-2 lg:col-span-1">
+      <div
+        class="flex justify-center items-center col-span-3 md:col-span-2 lg:col-span-1"
+      >
         <img
           [src]="item.Food.imageUrl"
           alt=""
           class="max-h-48 md:max-h-96 w-fit aspect-[16/16] object-cover p-3"
         />
       </div>
-      <div class="lg:border-none p-4 flex flex-col justify-center gap-1 col-span-3 lg:col-span-1">
-        <span class="border-b-[1px] border-white text-lg"
-          >
-          {{item.Food.name}}</span
+      <div
+        class="lg:border-none p-4 flex flex-col justify-between py-12 gap-1 col-span-3 lg:col-span-1"
+      >
+        <span class="border-b-[1px] border-white text-lg">
+          {{ item.Food.name }}</span
         >
         <div class="flex gap-1">
           <span>Tag 1 /</span>
@@ -25,17 +28,17 @@
         <star-rating [stars]="item.Food.stars"></star-rating>
       </div>
       <div
-        class=" p-[1px] flex flex-col justify-center items-center col-span-2 lg:col-span-1"
+        class="p-[1px] flex flex-col justify-between py-12 items-center col-span-2 lg:col-span-1"
       >
         <p class="text-sm border-b-[1px] border-white">Price</p>
         <p class="text-xl text-white">{{ item.Food.price | currency }}</p>
       </div>
       <div
-        class="flex flex-col items-center justify-center p-[1px] col-span-2 lg:col-span-1"
+        class="flex flex-col items-center justify-between py-12 p-[1px] col-span-2 lg:col-span-1"
       >
         <p class="text-center border-b-[1px] border-b-white">Quantity</p>
         <div class="pb-2">
-          <label for="Quantity" class="sr-only"> {{item.quantity}} </label>
+          <label for="Quantity" class="sr-only"> {{ item.quantity }} </label>
 
           <div class="flex items-center border rounded border-gray-800">
             <button
@@ -65,72 +68,40 @@
         </div>
       </div>
       <div
-        class=" p-2 flex flex-col justify-center items-center col-span-2 lg:col-span-1"
+        class="p-2 flex flex-col justify-between items-center col-span-2 lg:col-span-1 py-12"
       >
         <p class="text-sm border-b-[1px] border-white">Total</p>
-        <p class="text-xl text-white">{{ item.Food.price * item.quantity | currency }}</p>
+        <p class="text-xl text-white">
+          {{ item.Food.price * item.quantity | currency }}
+        </p>
       </div>
-      <div
-        class="text-white py-4 md:py-2 text-lg flex flex-col items-center justify-center p-2 col-span-6 lg:col-span-1 md:px-4"
+      <app-empty-button-red
+        class="flex flex-col items-center justify-center p-2 col-span-6 lg:col-span-1 md:px-4"
+        (onClick)="onReduceQuantity(item.Food.id, -item.quantity, true)"
+        >Remove Item</app-empty-button-red
       >
-        <a
-          class="w-1/2 md:w-8/12 lg:w-fit group relative inline-block text-sm font-medium text-white focus:outline-none focus:ring"
-          (click)="onReduceQuantity(item.Food.id, -item.quantity, true)"
-        >
-          <span
-            class="absolute rounded-md inset-0 translate-x-0.5 translate-y-0.5 bg-primary-red transition-transform group-hover:translate-y-0 group-hover:translate-x-0"
-          ></span>
-
-          <span
-            class="text-center relative transition-colors group-hover:bg-primary-red block border-[1px] border-primary-red rounded-md bg-black px-3 lg:px-5 py-3"
-
-          >
-            Remove Item
-          </span>
-        </a>
-      </div>
     </div>
-  }
-  @if (cartItems.data.length !== 0) {
+    } @if (cartItems.data.length !== 0) {
     <div
-      class="text-white border-[1px] grid border-primary-red rounded-md px-6 py-3 md:flex md:justify-between gap-4"
+      class="text-white border-[1px] grid border-slate-600 rounded-md px-6 py-3 md:flex md:justify-between gap-4"
     >
       <div class="flex justify-between md:justify-normal gap-2">
-        <a
-          class="w-1/[1px] md:w-fit group relative inline-block text-sm font-medium text-white focus:outline-none focus:ring"
+        <app-filled-button-red [routerLink]="'/home'"
+        [routerLinkActive]="'bg-transparent'"
+          >Continue Shopping</app-filled-button-red
         >
-          <span
-            class="absolute rounded-md inset-0 translate-x-0.5 translate-y-0.5 bg-primary-red transition-transform group-hover:translate-y-0 group-hover:translate-x-0"
-          ></span>
-
-          <span
-            class="text-center relative transition-colors group-hover:bg-primary-red block border-[1px] border-primary-red rounded-md bg-black px-8 py-3"
-            routerLink="/home"
-          >
-            Continue Shopping
-          </span>
-        </a>
-        <a
-          class="w-1/2 md:w-fit group relative inline-block text-sm font-medium text-white focus:outline-none focus:ring"
+        <app-filled-button-red [routerLink]="'/checkout'"
+        [routerLinkActive]="'bg-transparent'"
+          >Proceed To Checkout</app-filled-button-red
         >
-          <span
-            class="absolute rounded-md inset-0 translate-x-0.5 translate-y-0.5 bg-primary-red transition-transform group-hover:translate-y-0 group-hover:translate-x-0"
-          ></span>
-
-          <span
-            class="text-center relative transition-colors group-hover:bg-primary-red block border-[1px] border-primary-red rounded-md bg-black px-8 py-3"
-            routerLink="/checkout"
-          >
-            Proceed to Checkout
-          </span>
-        </a>
       </div>
       <div class="flex justify-center items-center py-1">
         <p class="pt-1 text-xl">
-          Subtotal: <span class="text-green-500">{{ totalPrice | currency }}</span>
+          Subtotal:
+          <span class="text-green-500">{{ totalPrice | currency }}</span>
         </p>
       </div>
     </div>
-  }
-</div>
+    }
+  </div>
 </div>

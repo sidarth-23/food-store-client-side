@@ -28,6 +28,7 @@ import { TextInputBoxComponent } from '../../partials/text-input-box/text-input-
 import { EmptyButtonRedComponent } from '../../partials/buttons/empty-button-red/empty-button-red.component';
 import { CheckboxComponent } from '../../partials/checkbox/checkbox.component';
 import { FilledButtonRedComponent } from '../../partials/buttons/filled-button-red/filled-button-red.component';
+import { SelectInputBoxComponent } from '../../partials/select-input-box/select-input-box.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -44,7 +45,8 @@ import { FilledButtonRedComponent } from '../../partials/buttons/filled-button-r
     TextInputBoxComponent,
     EmptyButtonRedComponent,
     CheckboxComponent,
-    FilledButtonRedComponent
+    FilledButtonRedComponent,
+    SelectInputBoxComponent
   ],
   templateUrl: './profile-page.component.html',
   styles: ``,
@@ -207,7 +209,7 @@ export class ProfilePageComponent implements OnInit {
 
   formControlPass(value: string) {
     return this.updatePasswordForm.get(value) as FormControl;
-  } 
+  }
 
   enableFormClick() {
     this.enableForm = !this.enableForm;
@@ -234,6 +236,7 @@ export class ProfilePageComponent implements OnInit {
           this.tempCities = cities.data[0].states.cities.map(
             (city) => city.name
           );
+          console.log(this.tempCities)
         });
   }
 
@@ -278,5 +281,13 @@ export class ProfilePageComponent implements OnInit {
 
   editAddressWithMap() {
     this.checkAddressEdit = !this.checkAddressEdit
+  }
+
+  get ifCityCondition() {
+    return !this.tempCities || (this.tempCities.length === 0 && this.tempStates.length !== 0);
+  }
+
+  get ifStateCondition() {
+    return !this.tempStates || this.tempStates.length === 0;
   }
 }

@@ -8,18 +8,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { Observable} from 'rxjs';
 import { StarRatingComponent } from '../../partials/star-rating/star-rating.component';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { FoodService } from '../../../services/food.service';
 import {
   FoodItem,
-  TagNameRes,
 } from '../../../shared/interfaces/food/requests.interface';
-import { ActivatedRoute, Route, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UserService } from '../../../services/user.service';
-import {
-  IUserCart,
-  IUserFavourites,
-} from '../../../shared/interfaces/users/response.interface';
+import { FilledButtonRedComponent } from '../../partials/buttons/filled-button-red/filled-button-red.component';
 
 @Component({
   selector: 'app-home-page',
@@ -34,8 +29,8 @@ import {
     MatSelectModule,
     StarRatingComponent,
     RouterModule,
-    NgOptimizedImage
-  ],
+    NgOptimizedImage,
+    FilledButtonRedComponent  ],
   templateUrl: './home-page.component.html',
   styles: ``,
 })

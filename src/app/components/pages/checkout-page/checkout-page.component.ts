@@ -29,6 +29,8 @@ import { OrderService } from '../../../services/order.service';
 import { FormHeaderComponent } from '../../partials/form-header/form-header.component';
 import { MapsService } from '../../../services/maps.service';
 import { TextInputBoxComponent } from '../../partials/text-input-box/text-input-box.component';
+import { SelectInputBoxComponent } from '../../partials/select-input-box/select-input-box.component';
+import { FilledButtonRedComponent } from '../../partials/buttons/filled-button-red/filled-button-red.component';
 
 @Component({
   selector: 'app-register-page',
@@ -46,7 +48,9 @@ import { TextInputBoxComponent } from '../../partials/text-input-box/text-input-
     MapsComponent,
     NgClass,
     FormHeaderComponent,
-    TextInputBoxComponent
+    TextInputBoxComponent,
+    SelectInputBoxComponent,
+    FilledButtonRedComponent
   ],
   templateUrl: './checkout-page.component.html',
   styles: ``,
@@ -214,5 +218,17 @@ export class CheckoutPageComponent implements OnInit {
         this.tempStates = res.tempStates;
         this.tempCities = res.tempCities;
       });
+  }
+
+  get ifCityCondition() {
+    return !this.tempCities || (this.tempCities.length === 0 && this.tempStates.length !== 0);
+  }
+
+  get ifStateCondition() {
+    return !this.tempStates || this.tempStates.length === 0;
+  }
+
+  get formValid() {
+    return this.orderForm.valid;
   }
 }

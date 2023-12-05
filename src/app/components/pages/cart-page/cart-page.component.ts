@@ -6,11 +6,13 @@ import { UserService } from '../../../services/user.service';
 import { IUserCart } from '../../../shared/interfaces/users/response.interface';
 import { RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { FilledButtonRedComponent } from '../../partials/buttons/filled-button-red/filled-button-red.component';
+import { EmptyButtonRedComponent } from '../../partials/buttons/empty-button-red/empty-button-red.component';
 
 @Component({
   selector: 'app-cart-page',
   standalone: true,
-  imports: [CommonModule, StarRatingComponent, RouterLink],
+  imports: [CommonModule, StarRatingComponent, RouterLink, FilledButtonRedComponent, EmptyButtonRedComponent],
   templateUrl: './cart-page.component.html',
   styles: ``,
 })

@@ -7,13 +7,12 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { PasswordStrengthValidator } from '../../../shared/validators/password-strenght.validator';
 import { UserService } from '../../../services/user.service';
 import { TextInputBoxComponent } from '../../partials/text-input-box/text-input-box.component';
-import { animate, style, transition, trigger } from '@angular/animations';
+import { FilledButtonRedComponent } from '../../partials/buttons/filled-button-red/filled-button-red.component';
 
 @Component({
   selector: 'app-login-page',
@@ -25,6 +24,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ReactiveFormsModule,
     NgClass,
     TextInputBoxComponent,
+    FilledButtonRedComponent
   ],
   templateUrl: './login-page.component.html',
   styles: ``,

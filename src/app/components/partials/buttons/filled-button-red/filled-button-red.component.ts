@@ -20,4 +20,6 @@ export class FilledButtonRedComponent {
   routerLink: any = ''
   @Input()
   routerLinkActive!: string
+  @Input()
+  textForButton: string = ''
 }

@@ -88,6 +88,7 @@
                 [label]="'Email'"
                 [type]="'email'"
                 [control]="formControl('email')"
+                [asterix]="true"
               ></app-text-input-box>
               <app-text-input-box
               class="col-span-6"
@@ -98,15 +99,10 @@
                 [errorCategories]="passwordErrorArray"
                 [control]="formControl('password')"
               ></app-text-input-box>
+
             <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-              <button
-                type="submit"
-                class="transition inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-primary-red focus:ring disabled:border-transparent disabled:bg-slate-600 disabled:text-slate-200"
-                [disabled]="!loginForm.valid"
-              >
-                Login
-              </button>
-  
+              <app-filled-button-red [type]="'submit'" [disabled]="!loginForm.valid" [textForButton]="'Login'">
+              </app-filled-button-red>
               <p class="mt-4 text-sm text-gray-200 sm:mt-0">
                 Don't yet have an account?
                 <a class="text-gray-300 underline" routerLink="/register"

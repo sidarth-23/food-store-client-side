@@ -1,20 +1,20 @@
 @if(routerLink.length === 0) {
 <button
-class="inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-primary-red focus:outline-none focus:ring"
+  class="w-full inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent disabled:text-slate-300 disabled:cursor-not-allowed disabled:border-slate-800 disabled:bg-slate-800"
   [type]="type"
   [disabled]="disabled"
   (click)="onClick.emit()"
-  >
-  <ng-content></ng-content>
+>
+{{textForButton}}
 </button>
 } @else {
-  <a
-    class="inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-primary-red focus:outline-none focus:ring"
-    [routerLink]="routerLink"
-    [routerLinkActive]="routerLinkActive"
-    [type]="type"
-    (click)="onClick.emit()"
-    >
-    <ng-content></ng-content>
-  </a>
+<a
+  class="inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-primary-red focus:outline-none focus:ring"
+  [routerLink]="routerLink"
+  [routerLinkActive]="routerLinkActive"
+  [type]="type"
+  (click)="onClick.emit()"
+>
+  <ng-content></ng-content>
+</a>
 }

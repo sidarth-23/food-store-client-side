@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/partials/header/header.component';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { LoadingComponent } from './components/partials/loading/loading.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent],
+  imports: [CommonModule, RouterOutlet, HeaderComponent, LoadingComponent],
   templateUrl: './app.component.html',
   styles: [],
   animations: [

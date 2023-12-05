@@ -1,12 +1,12 @@
 <div
   class="flex flex-col justify-center items-center py-4 gap-4 transition-transform no-scrollbar"
 >
-  <div class=" flex gap-4">
+  <div class="flex gap-4">
     <div class="relative">
       <form (ngSubmit)="onSearchTerm()">
         <label for="Search" class="sr-only"> Search for... </label
         ><input
-        maxlength="30"
+          maxlength="30"
           type="text"
           id="Search"
           placeholder="Search For..."
@@ -37,13 +37,11 @@
         ></span>
       </form>
     </div>
-    <button
-      class="text-center inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-4 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-primary-red focus:outline-none focus:ring active:bg-primary-red"
-      routerLink="/home/favourites"
-      routerLinkActive="bg-transparent text-primary-red"
-      >
-      Show Favourites
-    </button>
+    <app-filled-button-red
+      [routerLink]="'/home/favourites'"
+      [routerLinkActive]="'bg-transparent !text-primary-red'"
+      >Show Favourites</app-filled-button-red
+    >
   </div>
   <div class="w-10/12 flex flex-wrap gap-3 justify-center items-center pt-6">
     @for (item of tagList; track $index) {
@@ -122,10 +120,15 @@
               </button>
               <button
                 class="text-center inline-block rounded px-3 py-3 text-sm font-medium text-white transition hover:-rotate-2 hover:scale-110 focus:outline-none focus:ring active:bg-indigo-500"
-                [ngClass]=" favouriteFoodIds && !favouriteFoodIds.includes(item.id) ? 'bg-green-500': 'bg-primary-red'"
+                [ngClass]="
+                  favouriteFoodIds && !favouriteFoodIds.includes(item.id)
+                    ? 'bg-green-500'
+                    : 'bg-primary-red'
+                "
                 (click)="toggleFavourites(item.id)"
               >
-                @if (favouriteFoodIds && !favouriteFoodIds.includes(item.id)) { Add to
+                @if (favouriteFoodIds && !favouriteFoodIds.includes(item.id)) {
+                Add to
                 <span class="text-xl before:content-[' ']">❤</span> } @else {
                 Remove from <span class="text-xl">❤</span>
                 }
