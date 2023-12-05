@@ -1,0 +1,9 @@
+
+<button
+class="inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-primary-red focus:outline-none focus:ring"
+  [type]="type"
+  [disabled]="disabled"
+  (click)="onClick.emit()"
+  >
+  <ng-content></ng-content>
+</button>

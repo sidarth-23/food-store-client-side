@@ -83,16 +83,14 @@
             class="mt-8 grid grid-cols-6 gap-6"
             (ngSubmit)="onSubmit()"
           >
-            <div class="col-span-6">
               <app-text-input-box
+              class="col-span-6"
                 [label]="'Email'"
                 [type]="'email'"
                 [control]="formControl('email')"
               ></app-text-input-box>
-            </div>
-  
-            <div class="col-span-6">
               <app-text-input-box
+              class="col-span-6"
                 [label]="'Password'"
                 [type]="'password'"
                 [withInfoIcon]="true"
@@ -100,8 +98,6 @@
                 [errorCategories]="passwordErrorArray"
                 [control]="formControl('password')"
               ></app-text-input-box>
-            </div>
-  
             <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
               <button
                 type="submit"

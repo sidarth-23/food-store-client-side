@@ -25,6 +25,9 @@ import { PasswordsMatchValidator } from '../../../shared/validators/password-mat
 import { FormHeaderComponent } from '../../partials/form-header/form-header.component';
 import { MapsService } from '../../../services/maps.service';
 import { TextInputBoxComponent } from '../../partials/text-input-box/text-input-box.component';
+import { EmptyButtonRedComponent } from '../../partials/buttons/empty-button-red/empty-button-red.component';
+import { CheckboxComponent } from '../../partials/checkbox/checkbox.component';
+import { FilledButtonRedComponent } from '../../partials/buttons/filled-button-red/filled-button-red.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -38,7 +41,10 @@ import { TextInputBoxComponent } from '../../partials/text-input-box/text-input-
     MapsComponent,
     NgClass,
     FormHeaderComponent,
-    TextInputBoxComponent
+    TextInputBoxComponent,
+    EmptyButtonRedComponent,
+    CheckboxComponent,
+    FilledButtonRedComponent
   ],
   templateUrl: './profile-page.component.html',
   styles: ``,
@@ -268,5 +274,9 @@ export class ProfilePageComponent implements OnInit {
 
   buttonDisableCondition() {
     return this.passFc['password'].touched;
+  }
+
+  editAddressWithMap() {
+    this.checkAddressEdit = !this.checkAddressEdit
   }
 }
