@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StarRatingComponent } from '../../partials/star-rating/star-rating.component';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { UserService } from '../../../services/user.service';
 import { IUserCart } from '../../../shared/interfaces/users/response.interface';
 import { RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FilledButtonRedComponent } from '../../partials/buttons/filled-button-red/filled-button-red.component';
 import { EmptyButtonRedComponent } from '../../partials/buttons/empty-button-red/empty-button-red.component';
+import { EmptyPageDisplayComponent } from '../../partials/empty-page-display/empty-page-display.component';
 
 @Component({
   selector: 'app-cart-page',
   standalone: true,
-  imports: [CommonModule, StarRatingComponent, RouterLink, FilledButtonRedComponent, EmptyButtonRedComponent],
+  imports: [CommonModule, StarRatingComponent, RouterLink, FilledButtonRedComponent, EmptyButtonRedComponent, EmptyPageDisplayComponent],
   templateUrl: './cart-page.component.html',
   styles: ``,
 })

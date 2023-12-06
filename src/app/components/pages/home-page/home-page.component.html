@@ -111,29 +111,29 @@
                 <p class="text-xl font-bold">{{ item.cookTime + " min" }}</p>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-4 mt-4 w-full">
-              <button
-                class="text-center inline-block rounded bg-primary-red px-8 py-3 text-sm font-medium text-white transition hover:rotate-2 hover:scale-110 focus:outline-none focus:ring active:bg-indigo-500"
-                (click)="onAddToCart(item.id)"
-              >
-                Add To Cart
-              </button>
-              <button
-                class="text-center inline-block rounded px-3 py-3 text-sm font-medium text-white transition hover:-rotate-2 hover:scale-110 focus:outline-none focus:ring active:bg-indigo-500"
-                [ngClass]="
-                  favouriteFoodIds && !favouriteFoodIds.includes(item.id)
-                    ? 'bg-green-500'
-                    : 'bg-primary-red'
-                "
-                (click)="toggleFavourites(item.id)"
-              >
-                @if (favouriteFoodIds && !favouriteFoodIds.includes(item.id)) {
-                Add to
-                <span class="text-xl before:content-[' ']">❤</span> } @else {
-                Remove from <span class="text-xl">❤</span>
-                }
-              </button>
-            </div>
+              <div class="grid grid-cols-2 gap-4 mt-4 w-full">
+                <button
+                  class="text-center inline-block rounded bg-primary-red px-8 py-3 text-sm font-medium text-white transition hover:rotate-2 hover:scale-110 focus:outline-none focus:ring active:bg-indigo-500"
+                  (click)="onAddToCart(item.id)"
+                >
+                  Add To Cart
+                </button>
+                <button
+                  class="text-center inline-block rounded px-3 py-3 text-sm font-medium text-white transition hover:-rotate-2 hover:scale-110 focus:outline-none focus:ring active:bg-indigo-500"
+                  [ngClass]="
+                    favouriteFoodIds && !favouriteFoodIds.includes(item.id)
+                      ? 'bg-green-500'
+                      : 'bg-primary-red'
+                  "
+                  (click)="toggleFavourites(item.id)"
+                >
+                  @if (favouriteFoodIds && !favouriteFoodIds.includes(item.id)) {
+                  Add to
+                  <span class="text-xl before:content-[' ']">❤</span> } @else {
+                  Remove from <span class="text-xl">❤</span>
+                  }
+                </button>
+              </div>
           </div>
         </div>
       </div>

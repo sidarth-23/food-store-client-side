@@ -26,6 +26,7 @@
         >
           <app-text-input-box
             class="col-span-6 sm:col-span-3"
+            [fieldLength]="'medium'"
             [control]="formControl('firstName')"
             [type]="'text'"
             [label]="'First Name'"
@@ -35,12 +36,14 @@
             [errorCategories]="nameErrorArray"
           ></app-text-input-box>
           <app-text-input-box
+            [fieldLength]="'medium'"
             class="col-span-6 sm:col-span-3"
             [control]="formControl('lastName')"
             [type]="'text'"
             [label]="'Last Name'"
           ></app-text-input-box>
           <app-text-input-box
+            [fieldLength]="'long'"
             class="col-span-6"
             [control]="formControl('email')"
             [type]="'email'"
@@ -49,6 +52,7 @@
             [errorCategories]="emailErrorArray"
           ></app-text-input-box>
           <app-text-input-box
+            [fieldLength]="'long'"
             class="col-span-6 sm:col-span-3"
             [control]="formControl('password')"
             [type]="'password'"
@@ -58,12 +62,14 @@
             [errorCategories]="passwordErrorArray"
           ></app-text-input-box>
           <app-text-input-box
+            [fieldLength]="'long'"
             class="col-span-6 sm:col-span-3"
             [control]="formControl('confirmPassword')"
             [type]="'password'"
             [label]="'Confirm Password'"
           ></app-text-input-box>
           <app-text-input-box
+          [fieldLength]="'extra-long'"
             class="col-span-6"
             [control]="formControl('addressLine1')"
             [type]="'text'"
@@ -73,6 +79,7 @@
             [errorCategories]="addressErrorArray"
           ></app-text-input-box>
           <app-text-input-box
+          [fieldLength]="'extra-long'"
             class="col-span-6"
             [control]="formControl('addressLine2')"
             [type]="'text'"
@@ -98,6 +105,7 @@
             (onChange)="onStateChange()"
           ></app-select-input-box>
           <app-text-input-box
+          [fieldLength]="'zip-code'"
             class="col-span-6 sm:col-span-3"
             [control]="formControl('zipCode')"
             [type]="'text'"
@@ -123,15 +131,8 @@
               which is nothing as of today.
             </p>
           </div>
-
           <div class="col-span-6 hidden lg:flex lg:items-center lg:gap-4">
-            <button
-              type="submit"
-              class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
-            >
-              Create an account
-            </button>
-
+            <app-filled-button-red [type]="'submit'" [textForButton]="'Create an account'" [disabled]="!registrationForm.valid"></app-filled-button-red>
             <p class="mt-4 text-sm text-gray-200 sm:mt-0">
               Already have an account?
               <a routerLink="/login" class="text-neutral-400 underline"
@@ -163,13 +164,7 @@
     </div>
 
     <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-      <button
-        type="submit"
-        (click)="onSubmit()"
-        class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
-      >
-        Create an account
-      </button>
+      <app-filled-button-red [disabled]="!registrationForm.valid" (onClick)="onSubmit()" [type]="'button'" [textForButton]="'Create an account'"></app-filled-button-red>
 
       <p class="mt-4 text-sm text-gray-200 sm:mt-0">
         Already have an account?

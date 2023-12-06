@@ -6,11 +6,15 @@ import { LoadingService } from '../../../services/loading.service';
   standalone: true,
   imports: [],
   templateUrl: './loading.component.html',
-  styles: ``
+  styles: `.no-scroll {
+    overflow: hidden;
+  }`,
 })
 export class LoadingComponent {
   isLoading!: boolean;
-  constructor(loadingService: LoadingService) {
+  constructor(
+    loadingService: LoadingService
+  ) {
     loadingService.isLoading.subscribe((isLoading) => {
       this.isLoading = isLoading;
     });

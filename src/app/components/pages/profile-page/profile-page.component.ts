@@ -84,7 +84,9 @@ export class ProfilePageComponent implements OnInit {
 
   nameErrorArray = ['required', 'minlength'];
   emailErrorArray = ['required', 'email'];
-  passwordErrorArray = ['required', 'minlength', 'capsCheck', 'numberCheck', 'specialCharCheck'];
+  passwordErrorArray = [
+    'required', 'minlength', 'capsCheck', 'numCheck', 'specialCharCheck', 'smallLetterCheck'
+  ];
   addressErrorArray = ['required', 'minlength'];
 
   ngOnInit(): void {

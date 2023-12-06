@@ -52,7 +52,7 @@ export class LoginPageComponent implements OnInit {
       ],
     });
     this.passwordErrorArray = [
-      'required', 'minlength', 'capsCheck', 'numberCheck', 'specialCharCheck'
+      'required', 'minlength', 'capsCheck', 'numCheck', 'specialCharCheck', 'smallLetterCheck'
     ];
   }
 

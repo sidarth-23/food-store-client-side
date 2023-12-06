@@ -31,6 +31,7 @@ import { FormHeaderComponent } from '../../partials/form-header/form-header.comp
 import { MapsService } from '../../../services/maps.service';
 import { TextInputBoxComponent } from '../../partials/text-input-box/text-input-box.component';
 import { SelectInputBoxComponent } from '../../partials/select-input-box/select-input-box.component';
+import { FilledButtonRedComponent } from '../../partials/buttons/filled-button-red/filled-button-red.component';
 
 @Component({
   selector: 'app-register-page',
@@ -49,7 +50,8 @@ import { SelectInputBoxComponent } from '../../partials/select-input-box/select-
     NgClass,
     FormHeaderComponent,
     TextInputBoxComponent,
-    SelectInputBoxComponent
+    SelectInputBoxComponent,
+    FilledButtonRedComponent
   ],
   templateUrl: './register-page.component.html',
   styles: ``,
@@ -75,7 +77,9 @@ export class RegisterPageComponent implements OnInit {
 
   nameErrorArray = ['required', 'minlength'];
   emailErrorArray = ['required', 'email'];
-  passwordErrorArray = ['required', 'minlength', 'capsCheck', 'numberCheck', 'specialCharCheck'];
+  passwordErrorArray = [
+    'required', 'minlength', 'capsCheck', 'numCheck', 'specialCharCheck', 'smallLetterCheck'
+  ];
   addressErrorArray = ['required', 'minlength'];
 
   constructor(

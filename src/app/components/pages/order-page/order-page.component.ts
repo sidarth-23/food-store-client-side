@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { OrderService } from '../../../services/order.service';
 import { OrderSummary } from '../../../shared/interfaces/users/response.interface';
+import { EmptyPageDisplayComponent } from '../../partials/empty-page-display/empty-page-display.component';
 
 @Component({
   selector: 'app-order-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, EmptyPageDisplayComponent],
   templateUrl: './order-page.component.html',
   styles: ``,
 })

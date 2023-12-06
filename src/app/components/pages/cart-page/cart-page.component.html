@@ -1,6 +1,11 @@
+@defer (when cartItems) {
 <div class="flex flex-col justify-center items-center">
   <h1 class="text-white text-center lmd:text-2xl">My Cart</h1>
   <div class="grid gap-4 w-11/12">
+    @if (cartItems.data.length === 0) {
+      <app-empty-page-display
+        [pageName]="'Cart'" class="w-full"></app-empty-page-display>
+    }
     @for (item of cartItems.data; track $index) {
     <div
       class="grid grid-cols-6 lg:grid-cols-cart-item text-white border-[1px] border-white rounded-lg"
@@ -105,3 +110,4 @@
     }
   </div>
 </div>
+}

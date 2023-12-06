@@ -9,7 +9,8 @@ module.exports = {
         'primary-red': '#e72929',
       },
       gridTemplateColumns: {
-        'cart-item': '1fr 2.5fr 1fr 1.5fr 1fr 0.5fr'
+        'cart-item': '1fr 2.5fr 1fr 1.5fr 1fr 0.5fr',
+        'order-item': '1fr 2fr 3fr'
       }
     },
   },

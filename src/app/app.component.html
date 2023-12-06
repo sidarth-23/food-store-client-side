@@ -1,9 +1,9 @@
 <div class="flex justify-center items-center px-2">
   <div class="container flex flex-col gap-4">
+    <app-loading [@fadeInOut]="true" class="z-50"
+    ></app-loading>
     <app-header></app-header>
     <div [@fadeInOut]="true">
-      <app-loading
-      ></app-loading>
       <router-outlet class="relative z-0"></router-outlet>
     </div>
   </div>
