@@ -13,6 +13,9 @@ export class StarRatingComponent {
   stars!: number;
 
   @Input()
+  maxSize: number = 5;
+
+  @Input()
   size: number = 1;
 
   get styles() {

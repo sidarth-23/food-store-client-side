@@ -10,7 +10,6 @@ import {
 import { AddressFromCoordinates } from '../shared/interfaces/users/response.interface';
 import { LatLngLiteral } from 'leaflet';
 import { Observable, tap } from 'rxjs';
-import { countries } from '../shared/constants/country-names.data';
 
 @Injectable({
   providedIn: 'root',
@@ -23,10 +22,6 @@ export class LocationService {
 
   getCountryList() {
     return this.http.get<{ name: string }[]>(GET_COUNTRY_LIST);
-  }
-
-  getCountryFromMyArray() {
-    return countries.map((country) => country.name);
   }
 
   getStateList(country: string) {

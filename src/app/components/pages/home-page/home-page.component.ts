@@ -1,25 +1,18 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable } from 'rxjs';
 import { StarRatingComponent } from '../../partials/star-rating/star-rating.component';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { FoodService } from '../../../services/food.service';
-import {
-  FoodItem,
-  TagNameRes,
-} from '../../../shared/interfaces/food/requests.interface';
-import { ActivatedRoute, Route, Router, RouterModule } from '@angular/router';
+import { FoodItem } from '../../../shared/interfaces/food/requests.interface';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UserService } from '../../../services/user.service';
-import {
-  IUserCart,
-  IUserFavourites,
-} from '../../../shared/interfaces/users/response.interface';
+import { FilledButtonRedComponent } from '../../partials/buttons/filled-button-red/filled-button-red.component';
 
 @Component({
   selector: 'app-home-page',
@@ -34,32 +27,21 @@ import {
     MatSelectModule,
     StarRatingComponent,
     RouterModule,
+    NgOptimizedImage,
+    FilledButtonRedComponent,
   ],
   templateUrl: './home-page.component.html',
   styles: ``,
-  animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('300ms ease-in-out', style({ opacity: 1 })),
-      ]),
-      transition(':leave', [
-        animate('300ms ease-in-out', style({ opacity: 0 })),
-      ]),
-    ]),
-  ],
 })
 export class HomePageComponent implements OnInit {
-  initiation: boolean = false;
   countryNames!: Observable<{ name: string; code: string }[]>;
-  filters = ['Name', 'Tags'];
   favourites: boolean = false;
   foodList!: FoodItem[];
   tagList!: string[];
   searchTerm!: string;
-  foodNameSearchBar!: string[];
   favouriteFoods!: FoodItem[];
-  favouriteFoodIds!: number[]
+  favouriteFoodIds!: number[];
+  currentUserToken!: string;
 
   constructor(
     private foodService: FoodService,
@@ -69,7 +51,6 @@ export class HomePageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initiation = true;
     this.activatedRoute.params.subscribe((params) => {
       const routePath = this.activatedRoute.snapshot.url.map((url) => url.path);
       if (routePath.includes('tag')) {
@@ -99,7 +80,7 @@ export class HomePageComponent implements OnInit {
 
     this.userService.getFavourites().subscribe((res) => {
       this.favouriteFoods = res.message.map((item) => item.Food as FoodItem);
-      this.favouriteFoodIds = this.favouriteFoods.map(item => item.id)
+      this.favouriteFoodIds = this.favouriteFoods.map((item) => item.id);
     });
   }
 
@@ -122,7 +103,7 @@ export class HomePageComponent implements OnInit {
   toggleFavourites(foodId: number) {
     this.userService.toggleFavourite(foodId).subscribe((res) => {
       this.favouriteFoods = res.message.map((item) => item.Food as FoodItem);
-      this.favouriteFoodIds = this.favouriteFoods.map(item => item.id)
+      this.favouriteFoodIds = this.favouriteFoods.map((item) => item.id);
     });
   }
 }

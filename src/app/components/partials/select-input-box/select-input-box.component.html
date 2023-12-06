@@ -1,0 +1,23 @@
+<label
+  [for]="name"
+  class="block text-sm font-medium text-neutral-300 after:content-['*'] after:text-red-400"
+>
+  {{label}}
+</label>
+<select
+  name="HeadlineAct"
+  [id]="name"
+  class="scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-300 mt-1.5 w-full rounded-lg bg-black border-gray-200 text-sm text-white shadow-sm disabled:border-slate-600 disabled:text-slate-400 focus:outline-none focus:ring-0 focus:border-yellow-400"
+  [formControl]="formController"
+  (change)="onChange.emit()"
+>
+  @if (ifCondition) {
+  <option class="bg-black text-white" value="">
+    {{ elseLabel }}
+  </option>
+  } @else { @for (item of list; track item) {
+  <option class="bg-black text-white" [value]="item.trim()">
+    {{ item }}
+  </option>
+  } }
+</select>

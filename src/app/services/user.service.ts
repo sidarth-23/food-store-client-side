@@ -110,7 +110,7 @@ export class UserService {
           );
         },
         error: (err) => {
-          err.error.errMessage.forEach((item: ErrorMessage) => {
+          err.error.errors.forEach((item: ErrorMessage) => {
             this.toastrService.error(item.msg, 'Registration Failed');
           });
         },
@@ -130,10 +130,9 @@ export class UserService {
             );
           },
           error: (err) => {
-            this.toastrService.error(
-              err.errMessage,
-              'Updating user details Failed'
-            );
+            err.error.errors.forEach((item: ErrorMessage) => {
+              this.toastrService.error(item.msg, 'Updating User Details Failed');
+            });
           },
         })
       );

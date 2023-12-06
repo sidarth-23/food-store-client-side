@@ -4,8 +4,7 @@
   Plugins:
     - @tailwindcss/forms
 -->
-
-<section class="">
+<section>
   <div class="lg:grid lg:min-h-full lg:grid-cols-12">
     <section
       class="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6 rounded-md"
@@ -79,164 +78,39 @@
             tastebuds will thank you!
           </p>
         </div>
+          <form
+            [formGroup]="loginForm"
+            class="mt-8 grid grid-cols-6 gap-6"
+            (ngSubmit)="onSubmit()"
+          >
+              <app-text-input-box
+              class="col-span-6"
+                [label]="'Email'"
+                [type]="'email'"
+                [control]="formControl('email')"
+                [asterix]="true"
+              ></app-text-input-box>
+              <app-text-input-box
+              class="col-span-6"
+                [label]="'Password'"
+                [type]="'password'"
+                [withInfoIcon]="true"
+                [minlength]="8"
+                [errorCategories]="passwordErrorArray"
+                [control]="formControl('password')"
+              ></app-text-input-box>
 
-        <form
-          [formGroup]="loginForm"
-          class="mt-8 grid grid-cols-6 gap-6"
-          (ngSubmit)="onSubmit()"
-        >
-          <div class="col-span-6">
-            <label for="Email" class="block text-sm font-medium text-white" [ngClass]="loginForm.touched && loginForm.controls.email.errors ? 'text-red-400': ''">
-              Email
-            </label>
-
-            <input
-            maxlength="40"
-              type="email"
-              id="Email"
-              name="email"
-              class="transition-colors mt-1 w-full rounded-md bg-black border-gray-200 text-sm text-white shadow-sm"
-              formControlName="email"
-              [ngClass]="loginForm.touched && loginForm.controls.email.errors ? 'border-red-400': ''"
-            />
-          </div>
-
-          <div class="col-span-6">
-            <div class="relative has-tooltip">
-              <span
-                class="absolute tooltip p-1 rounded bg-gray-800 border-[1px] border-slate-600 -translate-y-28 translate-x-32 top-0 text-sm"
-              >
-                <ul class="list-disc list-inside px-3">
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      loginForm.controls.password.errors?.required
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    Field is required
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      loginForm.controls.password.errors?.capsCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One caps
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      loginForm.controls.password.errors?.smallLetterCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One Small Letter
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      loginForm.controls.password.errors?.numCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One number
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      loginForm.controls.password.errors?.specialCharCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One special character
-                  </li>
-                </ul></span
-              >
-              <div
-                class="relative flex gap-2"
-                [ngClass]="
-                  loginForm.controls.password.errors &&
-                  loginForm.controls.password.touched
-                    ? 'text-red-400'
-                    : ''
-                "
-              >
-                <label for="Password">Password</label>
-                <svg
-                  class="svg-icon"
-                  style="
-                    width: 1em;
-                    height: 1em;
-                    vertical-align: middle;
-                    fill: currentColor;
-                    overflow: hidden;
-                  "
-                  viewBox="0 0 1024 1024"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M511.3 959.4C264 959.4 63.2 759 63.2 511.4S263.7 63.3 511.3 63.3s448.1 200.5 448.1 448.1-200.8 448-448.1 448z m0-836C296.9 123.4 123 297.2 123 511.7S296.8 900 511.3 900s388.3-173.8 388.3-388.3-173.9-388.3-388.3-388.3z"
-                  />
-                  <path
-                    d="M588.7 529.2c-40.3 23.5-53.3 61.6-51.6 98.6 0 12.6-10.2 22.8-22.8 22.8h-11.8c-12.9 0-23.2-10.6-22.8-23.5 0.5-15.8 2.1-36.6 6.7-52.7 7.4-24.5 22.7-57.6 51.6-78.1 50.7-33.6 79.6-68.1 76.2-103.7-5-50.7-40-77.5-93.7-80.9-50.5-1.4-86.1 21-106.7 67.2-8.5 19.1-31 27.5-49.9 18.5-13.1-6.3-19.2-21.6-14-35.2l0.8-2.1c27.9-71.8 87.9-106.7 179.9-103.7 91 5 142 56.7 145.8 130.2 5 52.3-21.9 100.7-87.7 142.6z m-86.4 239c-17.9 0-32.5-15.7-32.5-33.7v1c0-17.9 14.5-32.5 32.5-32.5 17.9 0 32.5 14.5 32.5 32.5v-1c-0.1 17.9-14.6 33.7-32.5 33.7z"
-                  />
-                </svg>
-              </div>
+            <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+              <app-filled-button-red [type]="'submit'" [disabled]="!loginForm.valid" [textForButton]="'Login'">
+              </app-filled-button-red>
+              <p class="mt-4 text-sm text-gray-200 sm:mt-0">
+                Don't yet have an account?
+                <a class="text-gray-300 underline" routerLink="/register"
+                  >Register</a
+                >.
+              </p>
             </div>
-
-            <input
-            maxlength="35"
-              type="password"
-              id="Password"
-              name="password"
-              class="transition-colors mt-1 w-full rounded-md border-gray-200 bg-black text-sm text-white shadow-sm"
-              formControlName="password"
-              [ngClass]="
-                loginForm.controls['password'].errors &&
-                loginForm.controls['password'].touched
-                  ? 'border-red-400'
-                  : 'border-gray-200'
-              "
-            />
-          </div>
-
-          <!-- <div class="col-span-6">
-            <p class="text-sm text-gray-500">
-              By creating an account, you agree to our
-              <a class="text-gray-700 underline">
-                terms and conditions
-              </a>
-              and
-              <a class="text-gray-700 underline">privacy policy</a>
-              which i
-            </p>
-          </div> -->
-
-          <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-            <button
-              type="submit"
-              class="transition inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-primary-red focus:ring disabled:border-transparent disabled:bg-slate-600 disabled:text-slate-200"
-              [disabled]="!loginForm.valid"
-            >
-              Login
-            </button>
-
-            <p class="mt-4 text-sm text-gray-200 sm:mt-0">
-              Don't yet have an account?
-              <a class="text-gray-300 underline" routerLink="/register"
-                >Register</a
-              >.
-            </p>
-          </div>
-        </form>
+          </form>
       </div>
     </main>
   </div>

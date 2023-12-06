@@ -1,4 +1,3 @@
-import { countries } from '../../../shared/constants/country-names.data';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
@@ -8,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -27,6 +27,10 @@ import { MapsComponent } from '../../partials/maps/maps.component';
 import { LatLngLiteral } from 'leaflet';
 import { OrderService } from '../../../services/order.service';
 import { FormHeaderComponent } from '../../partials/form-header/form-header.component';
+import { MapsService } from '../../../services/maps.service';
+import { TextInputBoxComponent } from '../../partials/text-input-box/text-input-box.component';
+import { SelectInputBoxComponent } from '../../partials/select-input-box/select-input-box.component';
+import { FilledButtonRedComponent } from '../../partials/buttons/filled-button-red/filled-button-red.component';
 
 @Component({
   selector: 'app-register-page',
@@ -43,7 +47,10 @@ import { FormHeaderComponent } from '../../partials/form-header/form-header.comp
     AsyncPipe,
     MapsComponent,
     NgClass,
-    FormHeaderComponent
+    FormHeaderComponent,
+    TextInputBoxComponent,
+    SelectInputBoxComponent,
+    FilledButtonRedComponent
   ],
   templateUrl: './checkout-page.component.html',
   styles: ``,
@@ -70,11 +77,16 @@ export class CheckoutPageComponent implements OnInit {
   mapClick!: boolean;
   enableForm!: boolean;
 
+  nameErrorArray = ['required', 'minlength'];
+  emailErrorArray = ['required', 'email'];
+  addressErrorArray = ['required', 'minlength'];
 
   constructor(
     private formBuilder: FormBuilder,
     private locationService: LocationService,
-    private orderService: OrderService, private router: Router
+    private orderService: OrderService,
+    private router: Router,
+    private mapsService: MapsService
   ) {}
   ngOnInit(): void {
     this.tempCities = [];
@@ -143,13 +155,17 @@ export class CheckoutPageComponent implements OnInit {
     this.fc['lat'].valueChanges.subscribe((value) => {
       this.enableForm = !isNaN(parseInt(value)) && (value > -90 || value < 90);
       if (this.enableForm) {
-        this.orderForm.enable({emitEvent: false})
+        this.orderForm.enable({ emitEvent: false });
       }
     });
   }
 
   get fc() {
     return this.orderForm.controls;
+  }
+
+  formControl(value: string) {
+    return this.orderForm.get(value) as FormControl;
   }
 
   onCountryChange(country?: string) {
@@ -189,100 +205,30 @@ export class CheckoutPageComponent implements OnInit {
     };
 
     this.orderService.createUserOrder(body).subscribe(() => {
-      this.router.navigate(['/home'])
+      this.router.navigate(['/home']);
     });
-    console.log(this.orderForm.valid)
+    console.log(this.orderForm.valid);
   }
 
   onMapClick($event: LatLngLiteral) {
-    this.orderForm.patchValue({
-      lat: $event.lat,
-      lng: $event.lng,
-    });
-    this.mapClick = true;
-    this.locationService
-      .getAddressFromCoordinates($event.lat, $event.lng)
-      .subscribe((address) => {
-        const subpremise = address.data.address_components.find((item) =>
-          item.types.includes('subpremise')
-        );
-        const premise = address.data.address_components.find((item) =>
-          item.types.includes('premise')
-        );
-        const neighborhood = address.data.address_components.find((item) =>
-          item.types.includes('neighborhood')
-        );
-
-        const streetNumber = address.data.address_components.find((item) => {
-          return item.types.includes('street_number');
-        });
-        const addressLine1 =
-          // contat all the 4 components above it and exclude the null values
-          [subpremise, premise, neighborhood, streetNumber]
-            .map((item) => item?.long_name)
-            .filter((item) => item)
-            .join(', ');
-
-        const intersection = address.data.address_components.find((item) =>
-          item.types.includes('intersection')
-        );
-        const route = address.data.address_components.find((item) => {
-          return item.types.includes('route');
-        });
-        const colloquialArea = address.data.address_components.find((item) =>
-          item.types.includes('colloquial_area')
-        );
-        const addressLine2 = [intersection, route, colloquialArea]
-          .map((item) => item?.long_name)
-          .filter((item) => item)
-          .join(', ');
-
-        const zipCode = address.data.address_components.find((item) =>
-          item.types.includes('postal_code')
-        );
-        const country = address.data.address_components.find((item) =>
-          item.types.includes('country')
-        );
-        const state = address.data.address_components.find((item) =>
-          item.types.includes('administrative_area_level_1')
-        );
-        let city = address.data.address_components.find((item) =>
-          item.types.includes('administrative_area_level_3')
-        );
-        if (!city) {
-          city = address.data.address_components.find((item) =>
-            item.types.includes('locality')
-          );
-        }
-        const len = address.data.address_components.length;
-        const check = this.tempCountries.includes(country?.long_name as string);
-        this.orderForm.patchValue({
-          addressLine1: addressLine1 ? addressLine1 : '',
-          addressLine2: addressLine2 ? addressLine2 : '',
-          country: check ? country?.long_name : this.tempCountries[0],
-          zipCode: zipCode ? zipCode.long_name : '',
-        });
-        this.locationService
-          .getStateList(this.fc['country'].value)
-          .subscribe((states) => {
-            this.tempStates = states.data[0].states.map((state) => state.name);
-            const check = this.tempStates.includes(state?.long_name as string);
-            this.orderForm.patchValue({
-              state: check ? state?.long_name : this.tempStates[0],
-            });
-          });
-        this.locationService
-          .getCityList(this.fc['country'].value, this.fc['state'].value)
-          .subscribe((cities) => {
-            this.tempCities = cities.data[0].states.cities.map(
-              (city) => city.name
-            );
-            this.orderForm.patchValue({
-              city: city?.long_name ? city?.long_name : this.tempCities[0],
-            });
-          });
-
-        this.mapClick = false;
+    this.mapsService
+      .mapClickEvent(this.orderForm, true, $event)
+      ?.subscribe((res) => {
+        this.tempCountries = res.tempCountries;
+        this.tempStates = res.tempStates;
+        this.tempCities = res.tempCities;
       });
+  }
+
+  get ifCityCondition() {
+    return !this.tempCities || (this.tempCities.length === 0 && this.tempStates.length !== 0);
+  }
+
+  get ifStateCondition() {
+    return !this.tempStates || this.tempStates.length === 0;
+  }
+
+  get formValid() {
+    return this.orderForm.valid;
   }
 }

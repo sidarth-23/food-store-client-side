@@ -1,26 +1,45 @@
+@defer (when orderList) {
 <div
-  [@fadeInOut]="initiation"
   class="flex flex-col justify-center items-center"
 >
   <h1 class="font-bold">Your Orders</h1>
   <div
     class="flex w-full items-center justify-center flex-col gap-4"
   >
+  @if (orderList.length === 0) {
+    <app-empty-page-display
+      [pageName]="'Order'" class="w-full"></app-empty-page-display>
+  }
   @for (item of orderList; track item) {
-    <div class="grid grid-cols-3 lg:grid-cols-4 w-full gap-2 py-2">
+    <div class="grid grid-cols-3 lg:grid-cols-4 w-full gap-2 py-2 border-slate-400 border-[1px] rounded md">
       <div
-        class="col-span-3 lg:col-span-1 w-full lg:flex-col border-white border-2 rounded md flex items-center justify-around lg:justify-center lg:divide-y-2"
-      >
-        <h1 class="text-center pt-2">
-          Order Id : <span class="text-base">
-            {{item.orderId}}
-          </span>
-        </h1>
-        <h1 class="text-center pt-2">
-          Status : <span class="text-base">
-            {{item.status}}
-          </span>
-        </h1>
+        class="col-span-3 lg:col-span-1 grid grid-cols-order-item lg:grid-cols-1 w-full divide-x-[1px] lg:divide-y-[1px] lg:divide-x-0 divide-slate-400"
+      > <div class="flex flex-col justify-around items-start px-2 lg:px-4">
+        <p class="pt-2 text-base">
+          <span class="text-slate-300">Order Id :</span> {{item.orderId}}
+        </p>
+        <p class="pt-2 text-base">
+          <span class="text-slate-300">Status :</span> {{item.status}}
+        </p>
+      </div>
+      <div  class="flex flex-col justify-around items-start px-2 lg:px-4">
+        <p class="pt-2 text-base">
+          <span class="text-slate-300">Receiver Name :</span>
+            {{item.name}}
+ 
+        </p>
+        <p class="pt-2 text-base">
+          <span class="text-slate-300">Order Date :</span>
+            {{item.createdAt | date: 'dd/MM/yyyy'}}
+          
+        </p>
+      </div>
+      <div  class="px-2 lg:px-4">
+        <p class="pt-2 text-sm">
+          <span class="text-base text-slate-300">Address : </span> 
+            {{item.address.addressLine1}}, {{item.address.addressLine2}}, {{item.address.city}}, {{item.address.state}}, {{item.address.zipCode}}
+        </p>
+      </div>
       </div>
       <table
         class="col-span-3 min-w-full divide-y-2 text-sm divide-gray-700 bg-gray-900"
@@ -58,33 +77,21 @@
               </td>
             </tr>
           }
-
-          <!-- <tr class="odd:bg-gray-800/50">
-            <td class="whitespace-nowrap px-4 py-2 font-medium text-white">
-              Jane Doe
-            </td>
-            <td class="whitespace-nowrap px-4 py-2 text-gray-200">
-              04/11/1980
-            </td>
-            <td class="whitespace-nowrap px-4 py-2 text-gray-200">
-              Web Designer
-            </td>
-            <td class="whitespace-nowrap px-4 py-2 text-gray-200">$100,000</td>
-          </tr>
-
           <tr class="odd:bg-gray-800/50">
             <td class="whitespace-nowrap px-4 py-2 font-medium text-white">
-              Gary Barlow
+            </td>
+            <td class="whitespace-nowrap px-4 py-2 font-medium text-white">
+              Sub Total
             </td>
             <td class="whitespace-nowrap px-4 py-2 text-gray-200">
-              24/05/1995
             </td>
-            <td class="whitespace-nowrap px-4 py-2 text-gray-200">Singer</td>
-            <td class="whitespace-nowrap px-4 py-2text-gray-200">$20,000</td>
-          </tr> -->
+            <td class="whitespace-nowrap px-4 py-2 text-gray-200">
+           {{item.totalPrice | currency}}
+            </td>
         </tbody>
       </table>
     </div>
   }
   </div>
 </div>
+}

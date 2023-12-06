@@ -1,4 +1,4 @@
-<section [@fadeInOut]="initiation">
+<section>
   <div class="grid grid-cols-12 py-8">
     <section
       class="relative flex h-32 items-end bg-gray-900 col-span-12 rounded-md"
@@ -19,31 +19,30 @@
           About You
         </h1>
         <div class="flex gap-10 justify-center">
-          <a
-            routerLink="/profile/user"
-            routerLinkActive="text-primary-red bg-transparent"
-            class="inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-primary-red focus:outline-none focus:ring"
+          <app-filled-button-red
+            [routerLink]="'/profile/user'"
+            [routerLinkActive]="
+              '!text-gray-300 !border-gray-300 bg-transparent'
+            "
           >
             Set User Details
-          </a>
-          <a
-            routerLink="/profile/password"
-            routerLinkActive="text-primary-red bg-transparent"
-            class="inline-block shrink-0 rounded-md border border-primary-red bg-primary-red px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-primary-red focus:outline-none focus:ring"
+          </app-filled-button-red>
+          <app-filled-button-red
+            [routerLink]="'/profile/password'"
+            [routerLinkActive]="
+              '!text-gray-300 !border-gray-300 bg-transparent'
+            "
           >
             Set Password
-          </a>
+          </app-filled-button-red>
         </div>
       </div>
     </section>
     @if (updateSection === 'user') {
     <div class="col-span-12 flex justify-center items-center sm:gap-4 pt-6">
-      <button
-        class="w-10/12 inline-block shrink-0 rounded-md border border-primary-red hover:bg-primary-red px-12 py-3 text-sm font-medium text-primary-red transition hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-blue-500"
-        (click)="enableFormClick()"
-      >
+      <app-empty-button-red class="w-10/12" (onClick)="enableFormClick()">
         {{ enableForm ? "Disable Edit" : "Enable Edit" }}
-      </button>
+      </app-empty-button-red>
     </div>
     <div class="col-span-12 flex justify-center items-center px-10 lg:px-3">
       <div class="grid grid-cols-2 col-span-12">
@@ -52,290 +51,92 @@
           [@fadeInOut]="initiation"
         >
           <div class="w-full lg:max-w-3xl">
-            <div class="block min-h-6 border-b-[1px] border-slate-300">
-              <div class="inline-flex items-center">
-                <label
-                  class="relative flex items-center p-3 rounded-full cursor-pointer"
-                  htmlFor="check"
+            <app-checkbox
+              class="block min-h-6 border-b-[1px] border-slate-300"
+              [content]="'Edit address with changes on map location'"
+              [(checked)]="checkAddressEdit"
+              label="'edit-check'"
+            ></app-checkbox>
+              <form
+                [formGroup]="updateUserForm"
+                class="mt-8 grid grid-cols-6 gap-6"
+                (ngSubmit)="onSubmit()"
+              >
+                <app-text-input-box
+                  class="col-span-6"
+                  [type]="'text'"
+                  [label]="'First Name'"
+                  [minlength]="3"
+                  [control]="formControlUser('firstName')"
+                  [withInfoIcon]="true"
+                  [errorCategories]="nameErrorArray"
+                ></app-text-input-box>
+                <app-text-input-box
+                  class="col-span-6"
+                  [type]="'text'"
+                  [label]="'Last Name'"
+                  [control]="formControlUser('lastName')"
+                ></app-text-input-box>
+                <app-text-input-box
+                  class="col-span-6"
+                  [type]="'text'"
+                  [label]="'Address Line 1'"
+                  [control]="formControlUser('addressLine1')"
+                  [withInfoIcon]="true"
+                  [minlength]="3"
+                  [errorCategories]="addressErrorArray"
+                ></app-text-input-box>
+                <app-text-input-box
+                  class="col-span-6"
+                  [type]="'text'"
+                  [label]="'Address Line 2'"
+                  [control]="formControlUser('addressLine2')"
+                ></app-text-input-box>
+                <app-select-input-box
+                  class="col-span-6 sm:col-span-3"
+                  [list]="tempCities"
+                  [control]="formControlUser('city')"
+                  [ifCondition]="ifCityCondition"
+                  [elseLabel]="'Ignore asterix'"
+                  [label]="'City'"
+                  [name]="'CitySelect'"
+                ></app-select-input-box>
+                <app-select-input-box
+                  class="col-span-6 sm:col-span-3"
+                  [list]="tempStates"
+                  [control]="formControlUser('state')"
+                  [elseLabel]="'Service Unavailable'"
+                  [ifCondition]="ifStateCondition"
+                  [label]="'State'"
+                  [name]="'StateSelect'"
+                  (onChange)="onStateChange()"
+                ></app-select-input-box>
+                <app-text-input-box
+                  class="col-span-6 sm:col-span-3"
+                  [type]="'text'"
+                  [label]="'Zip Code'"
+                  [control]="formControlUser('zipCode')"
+                ></app-text-input-box>
+                <app-select-input-box
+                [ifCondition]="false"
+                  class="col-span-6 sm:col-span-3"
+                  [list]="tempCountries"
+                  [control]="formControlUser('country')"
+                  [label]="'Country'"
+                  [name]="'CountrySelect'"
+                  (onChange)="onCountryChange()"
                 >
-                  <input
-                    type="checkbox"
-                    class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10"
-                    id="check"
-                    [checked]="checkAddressEdit"
-                    (change)="checkAddressEdit = !checkAddressEdit"
-                  />
-                  <span
-                    class="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-3.5 w-3.5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      stroke="currentColor"
-                      stroke-width="1"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </span>
-                </label>
-                <label
-                  class="mt-px font-light text-slate-300 cursor-pointer select-none"
-                  htmlFor="check"
+                  ></app-select-input-box
                 >
-                  Edit address with changes on map location
-                </label>
-              </div>
-            </div>
-            <form
-              [formGroup]="updateUserForm"
-              class="mt-8 grid grid-cols-6 gap-6"
-              (ngSubmit)="onSubmit()"
-            >
-              <div class="col-span-6">
-                <div class="relative has-tooltip">
-                  <span
-                    class="absolute tooltip p-1 rounded bg-gray-800 border-[1px] border-slate-600 -translate-y-14 top-0 text-sm"
-                  >
-                    <ul class="list-disc list-inside px-2">
-                      <li>Field is required</li>
-                      <li>Minimum 3 characters</li>
-                    </ul></span
-                  >
-                  <div class="relative flex gap-2">
-                    <label for="FirstName">First Name</label>
-                    <svg
-                      class="svg-icon"
-                      style="
-                        width: 1em;
-                        height: 1em;
-                        vertical-align: middle;
-                        fill: currentColor;
-                        overflow: hidden;
-                      "
-                      viewBox="0 0 1024 1024"
-                      version="1.1"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M511.3 959.4C264 959.4 63.2 759 63.2 511.4S263.7 63.3 511.3 63.3s448.1 200.5 448.1 448.1-200.8 448-448.1 448z m0-836C296.9 123.4 123 297.2 123 511.7S296.8 900 511.3 900s388.3-173.8 388.3-388.3-173.9-388.3-388.3-388.3z"
-                      />
-                      <path
-                        d="M588.7 529.2c-40.3 23.5-53.3 61.6-51.6 98.6 0 12.6-10.2 22.8-22.8 22.8h-11.8c-12.9 0-23.2-10.6-22.8-23.5 0.5-15.8 2.1-36.6 6.7-52.7 7.4-24.5 22.7-57.6 51.6-78.1 50.7-33.6 79.6-68.1 76.2-103.7-5-50.7-40-77.5-93.7-80.9-50.5-1.4-86.1 21-106.7 67.2-8.5 19.1-31 27.5-49.9 18.5-13.1-6.3-19.2-21.6-14-35.2l0.8-2.1c27.9-71.8 87.9-106.7 179.9-103.7 91 5 142 56.7 145.8 130.2 5 52.3-21.9 100.7-87.7 142.6z m-86.4 239c-17.9 0-32.5-15.7-32.5-33.7v1c0-17.9 14.5-32.5 32.5-32.5 17.9 0 32.5 14.5 32.5 32.5v-1c-0.1 17.9-14.6 33.7-32.5 33.7z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
-                <input
-                maxlength="35"
-                  type="text"
-                  id="FirstName"
-                  name="first_name"
-                  class="mt-1 w-full rounded-md border-gray-200 bg-black text-sm font-medium text-neutral-300 shadow-sm disabled:border-none"
-                  formControlName="firstName"
-                />
-              </div>
-
-              <div class="col-span-6">
-                <label
-                  for="LastName"
-                  class="block text-sm font-medium text-neutral-300"
+                @if (enableForm) {
+                <app-empty-button-red
+                  class="col-span-6 hidden lg:flex lg:gap-4"
+                  [type]="'submit'"
+                  [disabled]="!updateUserForm.valid"
+                  >Update Profile</app-empty-button-red
                 >
-                  Last Name
-                </label>
-
-                <input
-                maxlength="35"
-                  type="text"
-                  id="LastName"
-                  name="last_name"
-                  class="mt-1 w-full rounded-md border-gray-200 bg-black text-sm text-neutral-300 shadow-sm disabled:border-none"
-                  formControlName="lastName"
-                />
-              </div>
-
-              <div class="col-span-6">
-                <div class="relative has-tooltip">
-                  <span
-                    class="absolute tooltip p-1 rounded bg-gray-800 border-[1px] border-slate-600 -translate-y-14 top-0 text-sm"
-                  >
-                    <ul class="list-disc list-inside px-2">
-                      <li>Field is required</li>
-                      <li>Minimum 3 characters</li>
-                    </ul></span
-                  >
-                  <div class="relative flex gap-2">
-                    <label for="AddressLine">Address Line 1</label>
-                    <svg
-                      class="svg-icon"
-                      style="
-                        width: 1em;
-                        height: 1em;
-                        vertical-align: middle;
-                        fill: currentColor;
-                        overflow: hidden;
-                      "
-                      viewBox="0 0 1024 1024"
-                      version="1.1"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M511.3 959.4C264 959.4 63.2 759 63.2 511.4S263.7 63.3 511.3 63.3s448.1 200.5 448.1 448.1-200.8 448-448.1 448z m0-836C296.9 123.4 123 297.2 123 511.7S296.8 900 511.3 900s388.3-173.8 388.3-388.3-173.9-388.3-388.3-388.3z"
-                      />
-                      <path
-                        d="M588.7 529.2c-40.3 23.5-53.3 61.6-51.6 98.6 0 12.6-10.2 22.8-22.8 22.8h-11.8c-12.9 0-23.2-10.6-22.8-23.5 0.5-15.8 2.1-36.6 6.7-52.7 7.4-24.5 22.7-57.6 51.6-78.1 50.7-33.6 79.6-68.1 76.2-103.7-5-50.7-40-77.5-93.7-80.9-50.5-1.4-86.1 21-106.7 67.2-8.5 19.1-31 27.5-49.9 18.5-13.1-6.3-19.2-21.6-14-35.2l0.8-2.1c27.9-71.8 87.9-106.7 179.9-103.7 91 5 142 56.7 145.8 130.2 5 52.3-21.9 100.7-87.7 142.6z m-86.4 239c-17.9 0-32.5-15.7-32.5-33.7v1c0-17.9 14.5-32.5 32.5-32.5 17.9 0 32.5 14.5 32.5 32.5v-1c-0.1 17.9-14.6 33.7-32.5 33.7z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
-                <input
-                maxlength="40"
-                  type="text"
-                  id="AddressLine1"
-                  name="address_line_1"
-                  class="mt-1 w-full rounded-md border-gray-200 bg-black text-sm text-neutral-300 shadow-sm disabled:border-none"
-                  formControlName="addressLine1"
-                />
-              </div>
-
-              <div class="col-span-6">
-                <label
-                  for="AddressLine2"
-                  class="block text-sm font-medium text-neutral-300"
-                >
-                  Address Line 2
-                </label>
-
-                <input
-                maxlength="40"
-                  type="text"
-                  id="AddressLine2"
-                  name="address_line_2"
-                  class="mt-1 w-full rounded-md border-gray-200 bg-black text-sm text-neutral-300 shadow-sm disabled:border-none"
-                  formControlName="addressLine2"
-                />
-              </div>
-
-              <div class="col-span-6 sm:col-span-3">
-                <div>
-                  <label
-                    for="CitySelect"
-                    class="block text-sm font-medium text-neutral-300 after:content-['*'] after:text-red-400"
-                  >
-                    City
-                  </label>
-
-                  <select
-                    name="HeadlineAct"
-                    id="CitySelect"
-                    class="scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-300 mt-1.5 w-full rounded-lg bg-black border-gray-300 text-neutral-300 sm:text-sm disabled:border-none"
-                    formControlName="city"
-                  >
-                    @if (tempCities === [] && tempStates !== []) {
-                    <option class="bg-black text-white" value="">
-                      Ignore asterix
-                    </option>
-                    } @else { @for (item of tempCities; track item) {
-                    <option class="bg-black text-white" [value]="item.trim()">
-                      {{ item }}
-                    </option>
-                    } }
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-span-6 sm:col-span-3">
-                <div>
-                  <label
-                    for="StateSelect"
-                    class="block text-sm font-medium text-neutral-300 after:content-['*'] after:text-red-400"
-                  >
-                    State
-                  </label>
-
-                  <select
-                    name="HeadlineAct"
-                    id="StateSelect"
-                    class="scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-300 mt-1.5 w-full rounded-lg bg-black border-gray-300 text-neutral-300 sm:text-sm disabled:border-none"
-                    (change)="onStateChange()"
-                    formControlName="state"
-                  >
-                    @if (tempStates === []) {
-                    <option class="bg-black text-white" value="">
-                      Service Unavailable
-                    </option>
-                    } @for (item of tempStates; track item) {
-                    <option class="bg-black text-white" [value]="item.trim()">
-                      {{ item }}
-                    </option>
-                    }
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-span-6 sm:col-span-3">
-                <label
-                  for="zipCode"
-                  class="block text-sm font-medium text-neutral-300 after:content-['*'] after:text-red-400"
-                >
-                  Zip Code
-                </label>
-
-                <input
-                  type="number"
-                  inputmode="numeric"
-                  maxlength="10"
-                  id="zipCode"
-                  name="zip_code"
-                  class="mt-1 w-full rounded-md border-gray-200 bg-black text-sm text-neutral-300 shadow-sm disabled:border-none"
-                  formControlName="zipCode"
-                />
-              </div>
-
-              <div class="col-span-6 sm:col-span-3">
-                <div>
-                  <label
-                    for="HeadlineAct"
-                    class="block text-sm font-medium text-neutral-300 after:content-['*'] after:text-red-400"
-                  >
-                    Country
-                  </label>
-
-                  <select
-                    name="HeadlineAct"
-                    id="HeadlineAct"
-                    class="scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-300 mt-1.5 w-full rounded-lg bg-black border-gray-300 text-neutral-300 sm:text-sm disabled:border-none"
-                    (change)="onCountryChange()"
-                    formControlName="country"
-                  >
-                    @for (item of tempCountries; track item) {
-                    <option class="bg-black text-white" [value]="item.trim()">
-                      {{ item }}
-                    </option>
-                    }
-                  </select>
-                </div>
-              </div>
-              @if (enableForm) {
-              <div class="col-span-6 hidden lg:flex lg:items-center lg:gap-4">
-                <div class="col-span-6 sm:flex sm:items-center sm:gap-4 w-full">
-                  <button
-                    type="submit"
-                    class="w-full inline-block shrink-0 rounded-md border border-primary-red hover:bg-primary-red px-12 py-3 text-sm font-medium text-primary-red transition hover:bg-transparent hover:text-white focus:outline-none focus:ring"
-                  >
-                    Update Profile
-                  </button>
-                </div>
-              </div>
-              }
-            </form>
+                }
+              </form>
           </div>
         </main>
         @defer (when userData) { @if (enableForm) {
@@ -345,250 +146,57 @@
         >
           <app-maps
             (locationClicked)="onMapClick($event)"
-            [address]="addressToSend"
+            [address]="userData.data.Address"
           ></app-maps>
         </div>
         } }
-
         <div class="px-8 py-8 lg:hidden col-span-2 grid gap-4">
           @if (enableForm) {
-          <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-            <div class="col-span-6 sm:flex sm:items-center sm:gap-4 w-full">
-              <button
-                class="w-full inline-block shrink-0 rounded-md border border-primary-red hover:bg-primary-red px-12 py-3 text-sm font-medium text-primary-red transition hover:bg-transparent hover:text-white focus:outline-none focus:ring"
-                (click)="onSubmit()"
-              >
-                Update Profile
-              </button>
-            </div>
-          </div>
+          <app-empty-button-red
+            class="col-span-6 sm:flex sm:items-center sm:gap-4"
+            class="col-span-6"
+            [type]="'submit'"
+            [disabled]="!updateUserForm.valid"
+            (onClick)="onSubmit()"
+            >Update Profile</app-empty-button-red
+          >
           }
         </div>
       </div>
     </div>
     } @else if (updateSection === 'password') {
-    <main class="flex justify-center items-center px-8 col-span-12 pt-6">
-      <div class="w-full flex justify-center">
-        <form
-          [@fadeInOut]="updateSection"
-          class="w-full mt-8 grid grid-cols-6 gap-6 max-w-xl"
-          [formGroup]="updatePasswordForm"
-          (ngSubmit)="onPasswordSubmit()"
+
+    <form
+      [@fadeInOut]="updateSection"
+      class="w-full mt-8 grid grid-cols-6 gap-6 max-w-xl px-8 col-span-12 pt-6"
+      [formGroup]="updatePasswordForm"
+      (ngSubmit)="onPasswordSubmit()"
+    >
+      <app-text-input-box
+        class="col-span-6"
+        [type]="'password'"
+        [label]="'Password'"
+        [control]="formControlPass('password')"
+        [withInfoIcon]="true"
+        [minlength]="8"
+        [errorCategories]="passwordErrorArray"
+      ></app-text-input-box>
+      <app-text-input-box
+        class="col-span-6"
+        [type]="'password'"
+        [label]="'Confirm Password'"
+        [control]="formControlPass('confirmPassword')"
+      ></app-text-input-box>
+
+      <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+        <app-empty-button-red
+          [type]="'submit'"
+          [disabled]="!updatePasswordForm.valid"
         >
-          <div class="col-span-6">
-            <div class="relative has-tooltip">
-              <span
-                class="absolute tooltip p-1 rounded bg-gray-800 border-[1px] border-slate-600 -translate-y-28 translate-x-32 top-0 text-sm"
-              >
-                <ul class="list-disc list-inside px-3">
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      updatePasswordForm.controls.password.errors?.required
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    Field is required
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      updatePasswordForm.controls.password.errors?.capsCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One caps
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      updatePasswordForm.controls.password.errors?.smallLetterCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One Small Letter
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      updatePasswordForm.controls.password.errors?.numCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One number
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      updatePasswordForm.controls.password.errors?.specialCharCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One special character
-                  </li>
-                </ul></span
-              >
-              <div class="relative flex gap-2" [ngClass]="updatePasswordForm.controls.password.errors && updatePasswordForm.controls.password.touched
-              ? 'text-red-400'
-              : ''">
-                <label for="Password" >Password</label>
-                <svg
-                  class="svg-icon"
-                  style="
-                    width: 1em;
-                    height: 1em;
-                    vertical-align: middle;
-                    fill: currentColor;
-                    overflow: hidden;
-                  "
-                  viewBox="0 0 1024 1024"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M511.3 959.4C264 959.4 63.2 759 63.2 511.4S263.7 63.3 511.3 63.3s448.1 200.5 448.1 448.1-200.8 448-448.1 448z m0-836C296.9 123.4 123 297.2 123 511.7S296.8 900 511.3 900s388.3-173.8 388.3-388.3-173.9-388.3-388.3-388.3z"
-                  />
-                  <path
-                    d="M588.7 529.2c-40.3 23.5-53.3 61.6-51.6 98.6 0 12.6-10.2 22.8-22.8 22.8h-11.8c-12.9 0-23.2-10.6-22.8-23.5 0.5-15.8 2.1-36.6 6.7-52.7 7.4-24.5 22.7-57.6 51.6-78.1 50.7-33.6 79.6-68.1 76.2-103.7-5-50.7-40-77.5-93.7-80.9-50.5-1.4-86.1 21-106.7 67.2-8.5 19.1-31 27.5-49.9 18.5-13.1-6.3-19.2-21.6-14-35.2l0.8-2.1c27.9-71.8 87.9-106.7 179.9-103.7 91 5 142 56.7 145.8 130.2 5 52.3-21.9 100.7-87.7 142.6z m-86.4 239c-17.9 0-32.5-15.7-32.5-33.7v1c0-17.9 14.5-32.5 32.5-32.5 17.9 0 32.5 14.5 32.5 32.5v-1c-0.1 17.9-14.6 33.7-32.5 33.7z"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            <input
-            maxlength="35"
-              type="password"
-              id="Password"
-              name="password"
-              class="mt-1 transition-colors w-full rounded-md border-gray-200 bg-black text-sm text-neutral-300 shadow-sm"
-              formControlName="password"
-              [ngClass]="
-                updatePasswordForm.controls['password'].errors &&
-                updatePasswordForm.controls['password'].touched
-                  ? 'border-red-400'
-                  : 'border-gray-200'
-              "
-            />
-          </div>
-
-          <div class="col-span-6">
-            <div class="relative has-tooltip">
-              <span
-                class="absolute tooltip p-1 rounded bg-gray-800 border-[1px] border-slate-600 -translate-y-28 translate-x-32 top-0 text-sm"
-              >
-                <ul class="list-disc list-inside px-3">
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      updatePasswordForm.controls.confirmPassword.errors?.required
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    Field is required
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      updatePasswordForm.controls.confirmPassword.errors?.capsCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One caps
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      updatePasswordForm.controls.confirmPassword.errors?.smallLetterCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One Small Letter
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      updatePasswordForm.controls.confirmPassword.errors?.numCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One number
-                  </li>
-                  <li
-                    class="text-white"
-                    [ngClass]="
-                      updatePasswordForm.controls.confirmPassword.errors?.specialCharCheck
-                        ? 'text-red-400'
-                        : ''
-                    "
-                  >
-                    One special character
-                  </li>
-                </ul></span
-              >
-              <div class="relative flex gap-2" [ngClass]="updatePasswordForm.controls.confirmPassword.errors && updatePasswordForm.controls.confirmPassword.touched
-              ? 'text-red-400'
-              : ''">
-                <label for="ConfirmPassword">Confirm Password</label>
-                <svg
-                  class="svg-icon"
-                  style="
-                    width: 1em;
-                    height: 1em;
-                    vertical-align: middle;
-                    fill: currentColor;
-                    overflow: hidden;
-                  "
-                  viewBox="0 0 1024 1024"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M511.3 959.4C264 959.4 63.2 759 63.2 511.4S263.7 63.3 511.3 63.3s448.1 200.5 448.1 448.1-200.8 448-448.1 448z m0-836C296.9 123.4 123 297.2 123 511.7S296.8 900 511.3 900s388.3-173.8 388.3-388.3-173.9-388.3-388.3-388.3z"
-                  />
-                  <path
-                    d="M588.7 529.2c-40.3 23.5-53.3 61.6-51.6 98.6 0 12.6-10.2 22.8-22.8 22.8h-11.8c-12.9 0-23.2-10.6-22.8-23.5 0.5-15.8 2.1-36.6 6.7-52.7 7.4-24.5 22.7-57.6 51.6-78.1 50.7-33.6 79.6-68.1 76.2-103.7-5-50.7-40-77.5-93.7-80.9-50.5-1.4-86.1 21-106.7 67.2-8.5 19.1-31 27.5-49.9 18.5-13.1-6.3-19.2-21.6-14-35.2l0.8-2.1c27.9-71.8 87.9-106.7 179.9-103.7 91 5 142 56.7 145.8 130.2 5 52.3-21.9 100.7-87.7 142.6z m-86.4 239c-17.9 0-32.5-15.7-32.5-33.7v1c0-17.9 14.5-32.5 32.5-32.5 17.9 0 32.5 14.5 32.5 32.5v-1c-0.1 17.9-14.6 33.7-32.5 33.7z"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            <input
-            maxlength="35"
-              type="password"
-              id="ConfirmPassword"
-              name="confirm_password"
-              class="transition-colors mt-1 w-full rounded-md border-gray-200 bg-black text-sm text-neutral-300 shadow-sm"
-              formControlName="confirmPassword"
-              [ngClass]="
-                updatePasswordForm.controls['confirmPassword'].errors &&
-                updatePasswordForm.controls['confirmPassword'].touched
-                  ? 'border-red-400'
-                  : 'border-gray-200'
-              "
-            />
-          </div>
-
-          <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-            <button
-              class="transition-colors w-full inline-block shrink-0 rounded-md border border-primary-red hover:bg-primary-red px-12 py-3 text-sm font-medium text-primary-red bg-transparent hover:text-white focus:outline-none focus:ring disabled:border-none disabled:bg-slate-600 disabled:text-slate-100"
-              type="submit"
-            [disabled]="!updatePasswordForm.valid"
-            >
-              Update Password
-            </button>
-          </div>
-        </form>
+          Update Password
+        </app-empty-button-red>
       </div>
-    </main>
+    </form>
     }
   </div>
 </section>
