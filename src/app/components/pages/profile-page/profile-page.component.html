@@ -187,7 +187,11 @@
         [label]="'Confirm Password'"
         [control]="formControlPass('confirmPassword')"
       ></app-text-input-box>
-
+      @if(this.updatePasswordForm.errors?.notMatch) {
+        <div class="col-span-6 bg-red-500 bg-opacity-30 rounded-lg text-center py-4">
+          Make sure the 2 passwords match
+        </div>
+      }
       <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
         <app-empty-button-red
           [type]="'submit'"

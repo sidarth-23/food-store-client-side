@@ -68,6 +68,11 @@
             [type]="'password'"
             [label]="'Confirm Password'"
           ></app-text-input-box>
+          @if(this.registrationForm.errors?.notMatch) {
+            <div class="col-span-6 bg-red-500 bg-opacity-30 rounded-lg text-center py-4">
+              Make sure the 2 passwords match
+            </div>
+          }
           <app-text-input-box
           [fieldLength]="'extra-long'"
             class="col-span-6"
