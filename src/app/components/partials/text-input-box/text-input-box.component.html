@@ -19,8 +19,8 @@
         @for (item of errorsText; track $index) {
         <li
           class="text-white"
-          [ngClass]="
-            formController.errors && formController.errors[item.category]
+          [ngClass]=" (errorCategories.includes('required') && formController.errors?.required) ||
+            (formController.errors && formController.errors[item.category])
               ? '!text-red-400'
               : ''
           "
